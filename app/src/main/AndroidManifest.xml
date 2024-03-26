@@ -13,6 +13,25 @@
         android:theme="@style/Theme.DiAbout"
         tools:targetApi="31">
         <activity
+            android:name=".Info"
+            android:exported="false" />
+        <activity
+            android:name=".Calculator"
+            android:exported="false" />
+        <activity
+            android:name=".Stats"
+            android:exported="false" />
+        <activity
+            android:name=".RecordFood"
+            android:exported="false" />
+        <activity
+            android:name=".RecordActivity"
+            android:exported="false"
+            android:theme="@style/Theme.DiAbout" />
+        <activity
+            android:name=".RecordGlucose"
+            android:exported="false" />
+        <activity
             android:name=".UserDetails"
             android:exported="true" />
         <activity

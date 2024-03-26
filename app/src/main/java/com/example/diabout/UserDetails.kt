@@ -24,7 +24,6 @@ class UserDetails : ComponentActivity() {
             intent.putExtra("ID", userID)
             startActivity(intent)
             finish()
-
         }
 
         val logOutButton = findViewById<Button>(R.id.logOut)
@@ -32,7 +31,6 @@ class UserDetails : ComponentActivity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
-
         }
     }
 }
