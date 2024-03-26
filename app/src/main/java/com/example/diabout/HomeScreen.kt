@@ -1,5 +1,6 @@
 package com.example.diabout
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -24,7 +25,7 @@ class HomeScreen : ComponentActivity() {
 
         val name = dbHandler.getNameFromID(userID!!)
 
-        val text1 = findViewById<TextView>(R.id.text1)
-        text1.text = name.toString()
+        val helloText = findViewById<TextView>(R.id.helloText)
+        helloText.text = "Hello "+name.toString()
     }
 }
