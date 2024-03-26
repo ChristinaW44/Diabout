@@ -1,9 +1,12 @@
 package com.example.diabout
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.ComponentActivity
 
@@ -27,5 +30,15 @@ class HomeScreen : ComponentActivity() {
 
         val helloText = findViewById<TextView>(R.id.helloText)
         helloText.text = "Hello "+name.toString()
+
+
+        val userProfileButton = findViewById<ImageButton>(R.id.userProfileButton)
+        userProfileButton.setOnClickListener {
+            val intent = Intent(this, UserDetails::class.java)
+            intent.putExtra("ID", userID)
+            startActivity(intent)
+            finish()
+
+        }
     }
 }
