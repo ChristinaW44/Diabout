@@ -1,17 +1,14 @@
-package com.example.diabout
+package com.example.diabout.activities
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.ComponentActivity
+import com.example.diabout.R
 
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.example.diabout.database.UserDBHelper
 
 class HomeScreen : ComponentActivity() {
 
@@ -35,6 +32,15 @@ class HomeScreen : ComponentActivity() {
         val userProfileButton = findViewById<ImageButton>(R.id.userProfileButton)
         userProfileButton.setOnClickListener {
             val intent = Intent(this, UserDetails::class.java)
+            intent.putExtra("ID", userID)
+            startActivity(intent)
+            finish()
+
+        }
+
+        val activityRecordButton = findViewById<Button>(R.id.activityRecordButton)
+        activityRecordButton.setOnClickListener {
+            val intent = Intent(this, RecordActivity::class.java)
             intent.putExtra("ID", userID)
             startActivity(intent)
             finish()

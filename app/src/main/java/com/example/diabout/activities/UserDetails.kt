@@ -1,14 +1,11 @@
-package com.example.diabout
+package com.example.diabout.activities
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import androidx.activity.ComponentActivity
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.example.diabout.R
 
 class UserDetails : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

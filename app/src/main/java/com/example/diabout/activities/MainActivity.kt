@@ -1,4 +1,4 @@
-package com.example.diabout
+package com.example.diabout.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,23 +6,14 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.diabout.ui.theme.DiAboutTheme
-import com.example.diabout.UserDBHelper
-import com.example.diabout.Users
+import com.example.diabout.R
+import com.example.diabout.database.UserDBHelper
 
 class MainActivity : ComponentActivity() {
 
-    lateinit var emailText: EditText
-    lateinit var passwordText: EditText
-    lateinit var dbHandler : UserDBHelper
+    private lateinit var emailText: EditText
+    private lateinit var passwordText: EditText
+    private lateinit var dbHandler : UserDBHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

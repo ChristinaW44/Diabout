@@ -1,4 +1,4 @@
-package com.example.diabout
+package com.example.diabout.helpers
 
 class DetailChecker {
 

@@ -1,4 +1,4 @@
-package com.example.diabout
+package com.example.diabout.database
 
 class Users{
     var id : Int = 0

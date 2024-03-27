@@ -1,4 +1,4 @@
-package com.example.diabout
+package com.example.diabout.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,9 +7,10 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import com.example.diabout.UserDBHelper
-import com.example.diabout.Users
-import com.example.diabout.DetailChecker
+import com.example.diabout.helpers.DetailChecker
+import com.example.diabout.R
+import com.example.diabout.database.UserDBHelper
+import com.example.diabout.database.Users
 
 class Register: ComponentActivity() {
 
