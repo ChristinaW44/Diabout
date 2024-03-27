@@ -25,7 +25,7 @@ class UserDetails : ComponentActivity() {
 
         val logOutButton = findViewById<Button>(R.id.logOut)
         logOutButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, LogIn::class.java)
             startActivity(intent)
             finish()
         }

@@ -23,7 +23,7 @@ class Register: ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.register)
+        setContentView(R.layout.activity_register)
 
         nameText = findViewById(R.id.name)
         emailText = findViewById(R.id.emailAddress)
@@ -35,7 +35,7 @@ class Register: ComponentActivity() {
 
         val backButton = findViewById<ImageButton>(R.id.back)
         backButton.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, LogIn::class.java)
             startActivity(intent)
         }
 

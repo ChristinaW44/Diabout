@@ -15,6 +15,12 @@
         tools:layout_editor_absoluteY="-6dp"
         android:layout_margin="20sp">
 
+        <Button
+            android:id="@+id/backButton"
+            android:layout_width="116dp"
+            android:layout_height="wrap_content"
+            android:text="Back" />
+
         <TextView
             android:id="@+id/addActivity"
             android:layout_width="wrap_content"

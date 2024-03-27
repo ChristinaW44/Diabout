@@ -9,7 +9,7 @@ import androidx.activity.ComponentActivity
 import com.example.diabout.R
 import com.example.diabout.database.UserDBHelper
 
-class MainActivity : ComponentActivity() {
+class LogIn : ComponentActivity() {
 
     private lateinit var emailText: EditText
     private lateinit var passwordText: EditText
