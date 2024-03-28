@@ -6,27 +6,41 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.diabout.R
+import com.example.diabout.database.Activity
 
 import com.example.diabout.database.UserDBHelper
+import com.example.diabout.helpers.RecyclerAdapter
 
 class HomeScreen : ComponentActivity() {
 
-    lateinit var dbHandler : UserDBHelper
+    lateinit var userDBHandler : UserDBHelper
+    lateinit var recyclerView: RecyclerView
+    lateinit var recordList: List<Activity>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home_screen)
 
-        dbHandler = UserDBHelper(this)
+        userDBHandler = UserDBHelper(this)
 
         val intent = intent
         val userID = intent.getStringExtra("ID")
 
-        val name = dbHandler.getNameFromID(userID!!)
+        val name = userDBHandler.getNameFromID(userID!!)
 
         val helloText = findViewById<TextView>(R.id.helloText)
         helloText.text = "Hello "+name.toString()
+
+        recordList = userDBHandler.findAllUserActivity(userID.toInt())
+
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.setHasFixedSize(true)
+
+        recyclerView.adapter = RecyclerAdapter(recordList)
 
 
         val userProfileButton = findViewById<ImageButton>(R.id.userProfileButton)
@@ -47,4 +61,6 @@ class HomeScreen : ComponentActivity() {
 
         }
     }
+
+
 }

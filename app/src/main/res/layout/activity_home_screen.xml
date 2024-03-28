@@ -121,7 +121,8 @@
             android:layout_height="341dp"
             android:layout_margin="20dp"
             android:background="@drawable/home_record_buttons"
-            android:padding="15dp" />
+            android:padding="15dp"
+            android:id="@+id/recyclerView"/>
 
 
 

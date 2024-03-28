@@ -4,22 +4,16 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.diabout.R
 import com.example.diabout.database.Activity
-import com.example.diabout.database.ActivityDBHelper
+import com.example.diabout.database.UserDBHelper
 import java.util.Calendar
 import java.text.SimpleDateFormat
 
 class RecordActivity : ComponentActivity() {
-    lateinit var dbHandler : ActivityDBHelper
+    lateinit var dbHandler : UserDBHelper
     lateinit var stepsText : EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +22,7 @@ class RecordActivity : ComponentActivity() {
 
         stepsText = findViewById(R.id.stepsInput)
 
-        dbHandler = ActivityDBHelper(this)
+        dbHandler = UserDBHelper(this)
 
         val intent = intent
         val userID = intent.getStringExtra("ID")
