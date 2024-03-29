@@ -7,21 +7,19 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import com.example.diabout.R
-import com.example.diabout.database.Activity
 import com.example.diabout.database.RecordItem
 import com.example.diabout.database.UserDBHelper
-import java.util.Calendar
 import java.text.SimpleDateFormat
+import java.util.Calendar
 
-class RecordActivity : ComponentActivity() {
+class RecordGlucose : ComponentActivity() {
     lateinit var dbHandler : UserDBHelper
-    lateinit var stepsText : EditText
-
+    lateinit var glucoseText : EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_record_activity)
+        setContentView(R.layout.activity_record_glucose)
 
-        stepsText = findViewById(R.id.stepsInput)
+        glucoseText = findViewById(R.id.glucoseInput)
 
         dbHandler = UserDBHelper(this)
 
@@ -41,15 +39,16 @@ class RecordActivity : ComponentActivity() {
             val time = Calendar.getInstance().time
             val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm")
             val current = formatter.format(time)
-            val value = stepsText.text.toString().toInt()
-            val record = RecordItem(0, userID!!.toInt(), 2, current, value)
+            val value = glucoseText.text.toString().toInt()
+            val record = RecordItem(0, userID!!.toInt(), 1, current, value)
             dbHandler.addRecord(record)
-            Toast.makeText(this, "activity added", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "glucose added", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, HomeScreen::class.java)
             intent.putExtra("ID", userID)
             startActivity(intent)
             finish()
         }
+
 
     }
 }

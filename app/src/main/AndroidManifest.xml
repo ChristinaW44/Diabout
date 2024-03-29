@@ -16,6 +16,12 @@
             android:name=".activities.RecordActivity"
             android:exported="true" />
         <activity
+            android:name=".activities.RecordGlucose"
+            android:exported="true" />
+        <activity
+            android:name=".activities.RecordFood"
+            android:exported="true" />
+        <activity
             android:name=".activities.UserDetails"
             android:exported="true" />
         <activity

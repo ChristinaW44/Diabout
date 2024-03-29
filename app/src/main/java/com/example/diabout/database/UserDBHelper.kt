@@ -10,7 +10,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
 
     companion object{
         private const val DATABASE_NAME = "diabout"
-        private const val DATABASE_VERSION = 2
+        private const val DATABASE_VERSION = 3
 
         private const val USER_TABLE_NAME = "users"
         private const val USER_COLUMN_ID = "id"
@@ -23,19 +23,26 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         private const val ACTIVITY_COLUMN_USER_ID = "userid"
         private const val ACTIVITY_COLUMN_TIME = "time"
         private const val ACTIVITY_COLUMN_STEPS = "steps"
+
+        private const val RECORD_TABLE_NAME = "record"
+        private const val RECORD_COLUMN_ID = "id"
+        private const val RECORD_COLUMN_USER_ID = "userid"
+        private const val RECORD_COLUMN_RECORD_TYPE = "recordtype"
+        private const val RECORD_COLUMN_TIME = "time"
+        private const val RECORD_COLUMN_VALUE = "value"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
         val createTableQuery = "CREATE TABLE $USER_TABLE_NAME ($USER_COLUMN_ID INTEGER PRIMARY KEY, $USER_COLUMN_NAME TEXT, $USER_COLUMN_EMAIL TEXT, $USER_COLUMN_PASSWORD TEXT)"
         db?.execSQL(createTableQuery)
-        val createTableQuery2 = "CREATE TABLE $ACTIVITY_TABLE_NAME ($ACTIVITY_COLUMN_ID INTEGER PRIMARY KEY, $ACTIVITY_COLUMN_USER_ID INT, $ACTIVITY_COLUMN_TIME TEXT, $ACTIVITY_COLUMN_STEPS INT)"
+        val createTableQuery2 = "CREATE TABLE $RECORD_TABLE_NAME ($RECORD_COLUMN_ID INTEGER PRIMARY KEY, $RECORD_COLUMN_USER_ID INT, $RECORD_COLUMN_RECORD_TYPE INT ,$RECORD_COLUMN_TIME TEXT, $RECORD_COLUMN_VALUE INT)"
         db?.execSQL(createTableQuery2)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
         val dropTableQuery = "DROP TABLE IF EXISTS $USER_TABLE_NAME"
         db?.execSQL(dropTableQuery)
-        val dropTableQuery2 = "DROP TABLE IF EXISTS $ACTIVITY_TABLE_NAME"
+        val dropTableQuery2 = "DROP TABLE IF EXISTS $RECORD_TABLE_NAME"
         db?.execSQL(dropTableQuery2)
         onCreate(db)
     }
@@ -105,34 +112,37 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         return name
     }
 
-    fun addActivity(activity: Activity){
+    fun addRecord(record: RecordItem){
         val db = this.writableDatabase
         val values = ContentValues()
-        values.put(ACTIVITY_COLUMN_USER_ID, activity.userid)
-        values.put(ACTIVITY_COLUMN_TIME, activity.time)
-        values.put(ACTIVITY_COLUMN_STEPS, activity.steps)
-        db.insert(ACTIVITY_TABLE_NAME, null, values)
+        values.put(RECORD_COLUMN_USER_ID, record.userid)
+        values.put(RECORD_COLUMN_RECORD_TYPE, record.recordtype)
+        values.put(RECORD_COLUMN_TIME, record.time)
+        values.put(RECORD_COLUMN_VALUE, record.value)
+        db.insert(RECORD_TABLE_NAME, null, values)
         db.close()
     }
 
-    fun findAllUserActivity(userID: Int): List<Activity> {
-        val activityList = mutableListOf<Activity>()
+    fun findAllUserRecords(userID: Int): List<RecordItem> {
+        val recordList = mutableListOf<RecordItem>()
         val db = this.readableDatabase
-        val selectedColumns = "$ACTIVITY_COLUMN_USER_ID = ?"
+        val selectedColumns = "$RECORD_COLUMN_USER_ID = ?"
         val selectedUserParams =  arrayOf(userID.toString())
-        val cursor = db.query(ACTIVITY_TABLE_NAME, null, selectedColumns, selectedUserParams, null, null, null)
+        val cursor = db.query(RECORD_TABLE_NAME, null, selectedColumns, selectedUserParams, null, null, null)
 
         while (cursor.moveToNext()){
-            val id = cursor.getInt(cursor.getColumnIndexOrThrow(ACTIVITY_COLUMN_ID))
-            val userID = cursor.getInt(cursor.getColumnIndexOrThrow(ACTIVITY_COLUMN_USER_ID))
-            val time = cursor.getString(cursor.getColumnIndexOrThrow(ACTIVITY_COLUMN_TIME))
-            val steps = cursor.getInt(cursor.getColumnIndexOrThrow(ACTIVITY_COLUMN_STEPS))
+            val id = cursor.getInt(cursor.getColumnIndexOrThrow(RECORD_COLUMN_ID))
+            val userID = cursor.getInt(cursor.getColumnIndexOrThrow(RECORD_COLUMN_USER_ID))
+            val recordType = cursor.getInt(cursor.getColumnIndexOrThrow(RECORD_COLUMN_RECORD_TYPE))
+            val time = cursor.getString(cursor.getColumnIndexOrThrow(RECORD_COLUMN_TIME))
+            val value = cursor.getInt(cursor.getColumnIndexOrThrow(RECORD_COLUMN_VALUE))
 
-            val activity = Activity(id, userID, time, steps)
-            activityList.add(activity)
+            val record = RecordItem(id, userID, recordType, time, value)
+            recordList.add(record)
         }
         cursor.close()
-        return activityList
+        db.close()
+        return recordList
     }
 
 

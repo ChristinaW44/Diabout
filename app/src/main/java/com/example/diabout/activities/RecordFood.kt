@@ -6,22 +6,23 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.enableEdgeToEdge
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.example.diabout.R
-import com.example.diabout.database.Activity
 import com.example.diabout.database.RecordItem
 import com.example.diabout.database.UserDBHelper
-import java.util.Calendar
 import java.text.SimpleDateFormat
+import java.util.Calendar
 
-class RecordActivity : ComponentActivity() {
+class RecordFood : ComponentActivity() {
     lateinit var dbHandler : UserDBHelper
-    lateinit var stepsText : EditText
-
+    lateinit var caloriesText : EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_record_activity)
+        setContentView(R.layout.activity_record_food)
 
-        stepsText = findViewById(R.id.stepsInput)
+        caloriesText = findViewById(R.id.caloriesInput)
 
         dbHandler = UserDBHelper(this)
 
@@ -41,15 +42,14 @@ class RecordActivity : ComponentActivity() {
             val time = Calendar.getInstance().time
             val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm")
             val current = formatter.format(time)
-            val value = stepsText.text.toString().toInt()
-            val record = RecordItem(0, userID!!.toInt(), 2, current, value)
+            val value = caloriesText.text.toString().toInt()
+            val record = RecordItem(0, userID!!.toInt(), 3, current, value)
             dbHandler.addRecord(record)
-            Toast.makeText(this, "activity added", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "calories added", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, HomeScreen::class.java)
             intent.putExtra("ID", userID)
             startActivity(intent)
             finish()
         }
-
     }
 }
