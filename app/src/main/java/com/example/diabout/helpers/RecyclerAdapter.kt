@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -35,11 +36,20 @@ class RecyclerAdapter(private val recordList: List<RecordItem>, private val date
         }
         holder.date.text = currentDate.toString()
 
+        if (current.recordtype == 1){
+            holder.recordImage.setBackgroundResource(R.drawable.glucose_grey)
+        } else if (current.recordtype == 2) {
+            holder.recordImage.setBackgroundResource(R.drawable.activity_grey)
+        } else {
+            holder.recordImage.setBackgroundResource(R.drawable.food_grey)
+        }
+
     }
 
     class ViewHolderClass(recordView : View) : RecyclerView.ViewHolder(recordView) {
         val desc:TextView = recordView.findViewById(R.id.text)
         val date:TextView = recordView.findViewById(R.id.date)
         val dateTitle: LinearLayout = recordView.findViewById(R.id.dateTitle)
+        val recordImage: ImageView = recordView.findViewById(R.id.recordImage)
     }
 }
