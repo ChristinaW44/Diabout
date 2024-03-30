@@ -12,6 +12,7 @@ import com.example.diabout.database.RecordItem
 import com.example.diabout.database.UserDBHelper
 import java.util.Calendar
 import java.text.SimpleDateFormat
+import java.util.Date
 
 class RecordActivity : ComponentActivity() {
     lateinit var dbHandler : UserDBHelper

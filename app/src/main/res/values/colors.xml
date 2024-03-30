@@ -9,5 +9,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="main_blue">#8bafb6</color>
-    <color name="outline_grey">#D3D3D3</color>
+    <color name="light_blue">#B7E7F1</color>
+    <color name="medium_grey">#B7C2C2</color>
+    <color name="light_grey">#dae0e0</color>
 </resources>

@@ -10,6 +10,6 @@
         android:topRightRadius="30dp" />
     <stroke
         android:width="2dp"
-        android:color="@color/outline_grey" />
+        android:color="@color/medium_grey" />
 
 </shape>

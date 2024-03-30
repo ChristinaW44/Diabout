@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
@@ -7,42 +7,36 @@
     android:layout_height="match_parent"
     android:background="@color/main_blue">
 
-    <ImageButton
-        android:id="@+id/threeLinesButton"
-        android:layout_width="69dp"
-        android:layout_height="64dp"
-        app:srcCompat="@android:drawable/ic_menu_sort_by_size" />
 
-    <ImageButton
-        android:id="@+id/userProfileButton"
-        android:layout_width="66dp"
-        android:layout_height="55dp"
-        android:layout_alignParentRight="true"
-        tools:srcCompat="@tools:sample/avatars" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="121dp"
-        android:layout_marginTop="40dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageButton
+            android:id="@+id/userProfileButton"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:layout_alignParentRight="true"
+            android:layout_margin="20sp"
+            android:background="@drawable/three_dots" />
 
         <TextView
             android:id="@+id/helloText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_margin="50px"
             android:text="Hello"
             android:textColor="@color/white"
-            android:textSize="50dp"
+            android:textSize="30sp"
             android:textStyle="bold" />
 
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="665dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="-14dp"
+        android:layout_height="648dp"
+
         android:background="@drawable/white_rounded_rectangle"
         android:orientation="vertical">
 
@@ -51,118 +45,136 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:text="Record"
+            android:layout_marginTop="10sp"
+            android:text="Add entry"
             android:textColor="@color/main_blue"
-            android:textSize="30dp"
+            android:textSize="25sp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="105dp"
-            android:orientation="horizontal"
-            android:padding="15dp">
+            android:layout_height="105sp"
+            android:orientation="horizontal">
 
-            <Button
+            <ImageButton
                 android:id="@+id/glucoseRecordButton"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/home_record_buttons"
-                android:text="Glucose"
-                android:textColor="@color/main_blue"
-                android:textSize="15dp"
-                android:textStyle="bold" />
+                android:layout_width="50px"
+                android:layout_height="170px"
+                android:layout_marginLeft="150px"
+                android:layout_marginTop="70px"
 
-            <Button
+                android:layout_marginRight="70px"
+                android:layout_marginBottom="70px"
+                android:layout_weight="1"
+                android:background="@drawable/glucose_blue" />
+
+            <ImageButton
                 android:id="@+id/activityRecordButton"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="50px"
+                android:layout_height="170px"
+                android:layout_marginLeft="30px"
+                android:layout_marginTop="70px"
+                android:layout_marginRight="30px"
+                android:layout_marginBottom="70px"
                 android:layout_weight="1"
-                android:background="@drawable/home_record_buttons"
-                android:text="Activity"
-                android:textColor="@color/main_blue"
-                android:textSize="15dp"
-                android:textStyle="bold" />
+                android:background="@drawable/activity_blue" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/foodRecordButton"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="50px"
+                android:layout_height="170px"
+                android:layout_marginLeft="70px"
+                android:layout_marginTop="70px"
+                android:layout_marginRight="150px"
+                android:layout_marginBottom="70px"
                 android:layout_weight="1"
-                android:background="@drawable/home_record_buttons"
-                android:text="Food"
-                android:textColor="@color/main_blue"
-                android:textSize="15dp"
-                android:textStyle="bold" />
+                android:background="@drawable/food_blue" />
+
+
         </LinearLayout>
 
         <View
             android:id="@+id/divider"
             android:layout_width="wrap_content"
-            android:layout_height="2dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@color/main_blue" />
+            android:layout_height="4px"
+            android:layout_marginLeft="20sp"
+            android:layout_marginRight="20sp"
+            android:background="@color/light_grey" />
 
         <TextView
             android:id="@+id/todaysRecords"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:text="Today's Records"
+
+            android:layout_marginTop="10sp"
+            android:text="Records"
             android:textColor="@color/main_blue"
-            android:textSize="30dp"
+            android:textSize="25sp"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="341dp"
-            android:layout_margin="20dp"
-            android:background="@drawable/home_record_buttons"
-            android:padding="15dp"
-            android:id="@+id/recyclerView"/>
+            android:layout_height="375dp"
 
+            android:padding="15sp" />
 
 
     </LinearLayout>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="4px"
+        android:background="@color/medium_grey" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:layout_margin="15dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="@color/white"
+        android:padding="10px">
 
-        <Button
-            android:id="@+id/button7"
+        <ImageButton
+            android:id="@+id/homeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="Button"
+            android:background="@drawable/home_grey"
+            android:layout_margin="60px"/>
 
-        <Button
-            android:id="@+id/button8"
+        <ImageButton
+            android:id="@+id/statsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="Button"
+            android:background="@drawable/statistics_blue"
+            android:layout_margin="60px"/>
 
-        <Button
-            android:id="@+id/button9"
+        <ImageButton
+            android:id="@+id/calcButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="Button"
+            android:background="@drawable/calculator_blue"
+            android:layout_margin="60px"/>
 
-        <Button
-            android:id="@+id/button10"
+        <ImageButton
+            android:id="@+id/infoButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="Button"
+            android:background="@drawable/info_blue"
+            android:layout_margin="60px"/>
+
+
     </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>
