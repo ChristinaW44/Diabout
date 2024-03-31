@@ -36,7 +36,7 @@ class LogIn : ComponentActivity() {
             val password = passwordText.text.toString().trim()
             val userExists = dbHandler.findUser(email, password)
             if (userExists){
-                val intent = Intent(this, HomeScreen::class.java)
+                val intent = Intent(this, Dashboard::class.java)
                 val userID = dbHandler.getIdFromEmail(email)
                 intent.putExtra("ID", userID.toString())
                 startActivity(intent)
