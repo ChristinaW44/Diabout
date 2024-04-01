@@ -31,7 +31,7 @@ class RecordFood : ComponentActivity() {
 
         val backButton = findViewById<Button>(R.id.backButton)
         backButton.setOnClickListener {
-            val intent = Intent(this, HomeScreen::class.java)
+            val intent = Intent(this, Dashboard::class.java)
             intent.putExtra("ID", userID)
             startActivity(intent)
             finish()
@@ -46,7 +46,7 @@ class RecordFood : ComponentActivity() {
             val record = RecordItem(0, userID!!.toInt(), 3, current, value)
             dbHandler.addRecord(record)
             Toast.makeText(this, "calories added", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, HomeScreen::class.java)
+            val intent = Intent(this, Dashboard::class.java)
             intent.putExtra("ID", userID)
             startActivity(intent)
             finish()

@@ -17,7 +17,7 @@ class UserDetails : ComponentActivity() {
 
         val backButton = findViewById<ImageButton>(R.id.backButton)
         backButton.setOnClickListener {
-            val intent = Intent(this, HomeScreen::class.java)
+            val intent = Intent(this, Dashboard::class.java)
             intent.putExtra("ID", userID)
             startActivity(intent)
             finish()

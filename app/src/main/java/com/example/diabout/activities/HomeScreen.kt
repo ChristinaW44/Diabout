@@ -42,64 +42,63 @@ class HomeScreen : ComponentActivity() {
         //val helloText = findViewById<TextView>(R.id.helloText)
         //helloText.text = "Hello "+name.toString() + " : " + date
 
-//        allRecords = userDBHandler.findAllUserRecords(userID.toInt())
-//
-//        recordList = allRecords.sortedByDescending { it.time }
-//
-//        dateList = mutableListOf<String>()
-//
-//        for (i in recordList){
-//            val date = i.time.split(" ")
-//            val formatedDate = formatDate(date[0])
-//            if (dateList.contains(formatedDate)){
-//                dateList.add("")
-//            } else {
-//                dateList.add(formatedDate)
-//            }
-//        }
-//
-//        recyclerView = findViewById(R.id.recyclerView)
-//        recyclerView.layoutManager = LinearLayoutManager(this)
-//        recyclerView.setHasFixedSize(true)
-//
-//        recyclerView.adapter = RecyclerAdapter(recordList, dateList)
-//
-//
-//        val userProfileButton = findViewById<ImageButton>(R.id.userProfileButton)
-//        userProfileButton.setOnClickListener {
-//            val intent = Intent(this, UserDetails::class.java)
-//            intent.putExtra("ID", userID)
-//            startActivity(intent)
-//            finish()
-//
-//        }
-//
-//        val glucoseRecordButton = findViewById<ImageButton>(R.id.glucoseRecordButton)
-//        glucoseRecordButton.setOnClickListener {
-//            val intent = Intent(this, RecordGlucose::class.java)
-//            intent.putExtra("ID", userID)
-//            startActivity(intent)
-//            finish()
-//
-//        }
-//
-//        val activityRecordButton = findViewById<ImageButton>(R.id.activityRecordButton)
-//        activityRecordButton.setOnClickListener {
-//            val intent = Intent(this, RecordActivity::class.java)
-//            intent.putExtra("ID", userID)
-//            startActivity(intent)
-//            finish()
-//
-//        }
-//
-//        val foodRecordButton = findViewById<ImageButton>(R.id.foodRecordButton)
-//        foodRecordButton.setOnClickListener {
-//            val intent = Intent(this, RecordFood::class.java)
-//            intent.putExtra("ID", userID)
-//            startActivity(intent)
-//            finish()
-//
-//        }
+        allRecords = userDBHandler.findAllUserRecords(userID.toInt())
+
+        recordList = allRecords.sortedByDescending { it.time }
+
+        dateList = mutableListOf<String>()
+
+        for (i in recordList){
+            val date = i.time.split(" ")
+            val formatedDate = formatDate(date[0])
+            if (dateList.contains(formatedDate)){
+                dateList.add("")
+            } else {
+                dateList.add(formatedDate)
+            }
+        }
+
+        recyclerView = findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.setHasFixedSize(true)
+
+        recyclerView.adapter = RecyclerAdapter(recordList, dateList)
+
+
+        val userProfileButton = findViewById<ImageButton>(R.id.userProfileButton)
+        userProfileButton.setOnClickListener {
+           val intent = Intent(this, UserDetails::class.java)
+            intent.putExtra("ID", userID)
+            startActivity(intent)
+            finish()
+
+        }
+
+        val glucoseRecordButton = findViewById<ImageButton>(R.id.glucoseRecordButton)
+        glucoseRecordButton.setOnClickListener {
+            val intent = Intent(this, RecordGlucose::class.java)
+            intent.putExtra("ID", userID)
+            startActivity(intent)
+           finish()
+
+        }
+
+        val activityRecordButton = findViewById<ImageButton>(R.id.activityRecordButton)
+        activityRecordButton.setOnClickListener {
+            val intent = Intent(this, RecordActivity::class.java)
+            intent.putExtra("ID", userID)
+            startActivity(intent)
+            finish()
+
+        }
+       val foodRecordButton = findViewById<ImageButton>(R.id.foodRecordButton)
+        foodRecordButton.setOnClickListener {
+            val intent = Intent(this, RecordFood::class.java)
+            intent.putExtra("ID", userID)
+            startActivity(intent)
+            finish()
+
+        }
 
 
     }

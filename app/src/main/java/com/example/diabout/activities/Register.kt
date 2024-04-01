@@ -53,7 +53,7 @@ class Register: ComponentActivity() {
                     if (detailChecker.checkPasswordLength(user.password)) {
                         if (detailChecker.checkConfimPassword(user.password, confirmPasswordText.text.toString().trim())) {
                             dbHandler.addUser(user)
-                            val intent = Intent(this, HomeScreen::class.java)
+                            val intent = Intent(this, Dashboard::class.java)
                             val userID = dbHandler.getIdFromEmail(user.email)
                             intent.putExtra("ID", userID.toString())
                             startActivity(intent)

@@ -7,6 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.diabout.R
+import com.example.diabout.database.UserDBHelper
 import com.example.diabout.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
@@ -15,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class Dashboard : AppCompatActivity() {
 
     lateinit var bottomNavigationView: BottomNavigationView
+    lateinit var userDBHandler : UserDBHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,27 +28,29 @@ class Dashboard : AppCompatActivity() {
         val infoFragment = InfoFragment()
         bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)!!
 
+        userDBHandler = UserDBHelper(this)
         val intent = intent
         val userID = intent.getStringExtra("ID")
+        val name = userDBHandler.getNameFromID(userID!!)
 
-        setFragment(homeFragment)
+        setFragment(homeFragment, name, userID!!)
 
         bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.navHome-> {
-                    setFragment(homeFragment)
+                    setFragment(homeFragment , name, userID!!)
                     true
                 }
                 R.id.navStats -> {
-                    setFragment(statsFragment)
+                    setFragment(statsFragment, name, userID!!)
                     true
                 }
                 R.id.navCalc-> {
-                    setFragment(calcFragment)
+                    setFragment(calcFragment, name, userID!!)
                     true
                 }
                 R.id.navInfo -> {
-                    setFragment(infoFragment)
+                    setFragment(infoFragment, name, userID!!)
                     true
                 }
 
@@ -57,7 +61,11 @@ class Dashboard : AppCompatActivity() {
 
 
 
-    private fun setFragment(fragment: Fragment) {
+    private fun setFragment(fragment: Fragment, name : String , userID  : String) {
+        val bundle = Bundle()
+        bundle.putString("name", name)
+        bundle.putString("ID", userID)
+        fragment.arguments = bundle
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment, fragment)
         transaction.commit()
