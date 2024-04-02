@@ -28,10 +28,10 @@
         android:padding="60px"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="418dp"
+        android:layout_width="match_parent"
         android:layout_height="856dp"
         android:background="@drawable/rounded_rectangle"
-        android:padding="40px"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcomeText">
@@ -40,10 +40,11 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:text="Add Entry"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:paddingTop="40px"/>
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -88,13 +89,13 @@
            />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="388dp"
-            android:layout_height="766dp"
-            android:padding="40px"
+            android:id="@+id/recyclerView"
+            android:layout_width="406dp"
+
+            android:layout_height="483dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/divider"
-            android:id="@+id/recyclerView"/>
+            app:layout_constraintTop_toBottomOf="@+id/divider" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

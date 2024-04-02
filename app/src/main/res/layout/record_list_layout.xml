@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:background="@color/medium_grey"
             android:id="@+id/dateTitle">
 
             <TextView
@@ -27,7 +26,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_gravity="center_horizontal"
-                />
+                android:textStyle="bold"/>
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="wrap_content"
+                android:layout_height="4px"
+
+                android:background="@color/light_grey" />
 
         </LinearLayout>
 
@@ -39,17 +45,29 @@
 
             <ImageView
                 android:id="@+id/recordImage"
-                android:layout_width="100px"
-                android:layout_height="100px"
-                />
+                android:layout_width="75px"
+                android:layout_height="75px"
+                android:layout_margin="40px"/>
 
             <TextView
-                android:id="@+id/text"
+                android:id="@+id/record"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Record"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_gravity="center"/>
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_gravity="center"
+                android:gravity="right"
+                android:paddingRight="40px"/>
         </LinearLayout>
 
     </LinearLayout>

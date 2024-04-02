@@ -26,11 +26,21 @@ class RecyclerAdapter(private val recordList: List<RecordItem>, private val date
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
         val current = recordList[position]
         val currentDate = dateList[position]
-        holder.desc.text = current.recordtype.toString() + " : "+ current.value.toString() + " : " + current.time
+
+        var type = ""
+        if (current.recordtype == 1){
+            type = "mg/dL"
+        } else if (current.recordtype == 2){
+            type = "Steps"
+        } else {
+            type = "Calories"
+        }
+        holder.desc.text = type + " : "+ current.value.toString()
 
         if (currentDate == ""){
             holder.date.textSize = 0.0F
             holder.dateTitle.setBackgroundColor(Color.WHITE)
+            holder.divider.setBackgroundColor(Color.WHITE)
         } else {
             holder.date.setPadding(0,10,0,10)
         }
@@ -44,12 +54,17 @@ class RecyclerAdapter(private val recordList: List<RecordItem>, private val date
             holder.recordImage.setBackgroundResource(R.drawable.food_grey)
         }
 
+        val dateSplit = current.time.split(" ")
+        holder.time.text = dateSplit[1]
+
     }
 
     class ViewHolderClass(recordView : View) : RecyclerView.ViewHolder(recordView) {
-        val desc:TextView = recordView.findViewById(R.id.text)
+        val desc:TextView = recordView.findViewById(R.id.record)
+        val time:TextView = recordView.findViewById(R.id.time)
         val date:TextView = recordView.findViewById(R.id.date)
         val dateTitle: LinearLayout = recordView.findViewById(R.id.dateTitle)
         val recordImage: ImageView = recordView.findViewById(R.id.recordImage)
+        val divider: View = recordView.findViewById(R.id.divider)
     }
 }

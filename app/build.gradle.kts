@@ -75,4 +75,6 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("com.google.android.material:material:1.3.0-alpha03")
+    implementation("com.jjoe64:graphview:4.2.2")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }
