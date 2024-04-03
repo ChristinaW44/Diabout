@@ -10,14 +10,28 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
-
-
-
-        <!--<androidx.viewpager.widget.ViewPager
+        <com.google.android.material.tabs.TabLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/viewPager"/>-->
+            android:layout_height="wrap_content"
+            android:id="@+id/recordTypeTabs"
+            android:layout_margin="20px">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Glucose"/>
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Activity"/>
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Food"/>
+
+        </com.google.android.material.tabs.TabLayout>
 
         <androidx.cardview.widget.CardView
             android:id="@+id/card"
