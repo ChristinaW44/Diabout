@@ -1,12 +1,16 @@
 package com.example.diabout.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.diabout.R
+import com.example.diabout.activities.UserDetails
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -26,32 +30,30 @@ class StatsFragment : Fragment() {
         val text1 = view.findViewById<View>(R.id.barChartTitleTV) as TextView
         text1.text = currentPos.toString()
 
+
         val tabLayout = view.findViewById<View>(R.id.dateTabs) as TabLayout
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 currentPos = tab.position
                 text1.text = currentPos.toString()
+                if (currentPos == 0){
+                    setGraphDataWeekly(view)
+                } else if (currentPos == 1){
+                    setGraphDataMonthly(view)
+                } else {
+                    setGraphDataYearly(view)
+                }
             }
 
             override fun onTabUnselected(tab: TabLayout.Tab) {}
             override fun onTabReselected(tab: TabLayout.Tab) {}
         })
 
-
-        val lineChart = view.findViewById<View>(R.id.chart) as LineChart
-
-        if (currentPos == 0){
-            setGraphDataWeekly(lineChart)
-        } else if (currentPos == 1){
-            setGraphDataMonthly(lineChart)
-        } else {
-            setGraphDataYearly(lineChart)
-        }
-
         return view
     }
 
-    fun setGraphDataWeekly(lineChart: LineChart) {
+    fun setGraphDataWeekly(view : View) {
+        val lineChart = view.findViewById<View>(R.id.chart) as LineChart
         val entries = ArrayList<Entry>()
 
         entries.add(Entry(1f, 1f))
@@ -77,9 +79,13 @@ class StatsFragment : Fragment() {
 
         lineChart.description.text = "Days"
         lineChart.setNoDataText("none")
+
+        lineChart.notifyDataSetChanged();
+        lineChart.invalidate();
     }
 
-    fun setGraphDataMonthly(lineChart: LineChart) {
+    fun setGraphDataMonthly(view : View) {
+        val lineChart = view.findViewById<View>(R.id.chart) as LineChart
         val entries = ArrayList<Entry>()
 
         entries.add(Entry(1f, 1f))
@@ -119,9 +125,17 @@ class StatsFragment : Fragment() {
 
         lineChart.description.text = "Days"
         lineChart.setNoDataText("none")
+
+        lineChart.notifyDataSetChanged();
+        lineChart.invalidate();
     }
 
-    fun setGraphDataYearly(lineChart : LineChart){
+    fun setGraphDataYearly(view : View){
+
+        val currentYear = 2024
+        val recordType = 1
+
+        val lineChart = view.findViewById<View>(R.id.chart) as LineChart
         val entries = ArrayList<Entry>()
 
         entries.add(Entry(1f,1f))
@@ -152,5 +166,8 @@ class StatsFragment : Fragment() {
 
         lineChart.description.text = "Days"
         lineChart.setNoDataText("none")
+
+        lineChart.notifyDataSetChanged();
+        lineChart.invalidate();
     }
 }
