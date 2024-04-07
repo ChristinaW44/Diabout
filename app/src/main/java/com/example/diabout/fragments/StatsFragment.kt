@@ -10,6 +10,7 @@ import com.example.diabout.R
 import com.example.diabout.database.RecordItem
 import com.example.diabout.database.UserDBHelper
 import com.example.diabout.helpers.MonthValueFormatter
+import com.example.diabout.helpers.WeekValueFormatter
 import com.example.diabout.helpers.YearValueFormatter
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
@@ -17,6 +18,7 @@ import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.google.android.material.tabs.TabLayout
+import java.time.LocalDate
 import java.util.Calendar
 
 class StatsFragment : Fragment() {
@@ -38,11 +40,17 @@ class StatsFragment : Fragment() {
 
         val text1 = view.findViewById<View>(R.id.barChartTitleTV) as TextView
 
-        val daysInMonth = Calendar.getInstance().firstDayOfWeek
-        text1.text = daysInMonth.toString()
+        val currentDate = LocalDate.now()
+        val dateNeeded = currentDate.minusDays(7)
+        val value = currentDate.dayOfWeek.value
+
+//        val daysInMonth = Calendar.getInstance().firstDayOfWeek
+        text1.text = value.toString()
 
         var recordTypeSelected = 1
-        var timeSelected = 1
+        var timeSelected = 0
+
+        setGraphDataWeekly(view , userID!!, recordTypeSelected)
 
         val recordTypeLayout = view.findViewById<View>(R.id.recordTypeTabs) as TabLayout
         recordTypeLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -86,23 +94,59 @@ class StatsFragment : Fragment() {
 
     fun setGraphDataWeekly(view : View, userID : String, recordTypeSelected : Int) {
         val entries = ArrayList<Entry>()
+        allRecords = userDBHandler.findAllUserRecords(userID.toInt())
 
-        entries.add(Entry(1f, 1f))
-        entries.add(Entry(2f, 2f))
-        entries.add(Entry(3f, 3f))
-        entries.add(Entry(4f, 4f))
-        entries.add(Entry(5f, 5f))
-        entries.add(Entry(6f, 6f))
-        entries.add(Entry(7f, 7f))
+//        entries.add(Entry(1f, 1f))
+//        entries.add(Entry(2f, 2f))
+//        entries.add(Entry(3f, 3f))
+//        entries.add(Entry(4f, 4f))
+//        entries.add(Entry(5f, 5f))
+//        entries.add(Entry(6f, 6f))
+//        entries.add(Entry(7f, 7f))
 
-        val v1 = LineDataSet(entries, "My Type")
+        val current = LocalDate.now()
+        val dayValue = current.dayOfWeek.value
+        var count = 0
 
-        v1.setDrawValues(false)
-        v1.setDrawFilled(false)
-        v1.lineWidth = 3f
-        v1.fillColor = R.color.main_blue
+        while (count != dayValue) {
+            println((dayValue - count -1).toString())
+            var newDate = getDateNeeded(current, (dayValue - count - 1).toLong())
 
+            var currentYear = newDate.year
+            var currentMonth = newDate.month
+            var currentDay = newDate.dayOfMonth
+
+            var total = 0
+            var records = 0
+
+            for (i in allRecords){
+                if (i.recordtype == recordTypeSelected) {
+                    val recordDate = i.time.split(" ")
+                    val recordDateSplit = recordDate[0].split("-")
+                    if (recordDateSplit[0].toInt() == currentYear){
+                        if (recordDateSplit[1].toInt() == currentMonth.value){
+                            if (recordDateSplit[2].toInt() == currentDay){
+                                total += i.value
+                                records ++
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (total != 0){
+                val average = total / records
+                entries.add(Entry((count).toFloat(),average.toFloat()))
+            } else {
+                entries.add(Entry(count.toFloat(),0F))
+            }
+            count ++
+        }
         createLineChart(view, entries, 0)
+    }
+
+    private fun getDateNeeded(currentDay: LocalDate, daysBefore: Long): LocalDate {
+        return currentDay.minusDays(daysBefore)
     }
 
     fun setGraphDataMonthly(view : View, userID : String, recordTypeSelected : Int) {
@@ -118,7 +162,7 @@ class StatsFragment : Fragment() {
         val perDayData = Array(daysInMonth) {Array<Int>(2){0} }
 
         for (i in allRecords){
-            println(i.recordtype.toString() + " " + recordTypeSelected.toString())
+            //println(i.recordtype.toString() + " " + recordTypeSelected.toString())
             if (i.recordtype == recordTypeSelected) {
                 val date = i.time.split(" ")
                 val dateSplit = date[0].split("-")
@@ -195,7 +239,7 @@ class StatsFragment : Fragment() {
         createLineChart(view, entries, 2)
     }
 
-    fun createLineChart(view : View, entries : ArrayList<Entry>, timeSelected : Int){
+    private fun createLineChart(view : View, entries : ArrayList<Entry>, timeSelected : Int){
         val lineChart = view.findViewById<View>(R.id.chart) as LineChart
         val v1 = LineDataSet(entries, "My Type")
 
@@ -218,6 +262,9 @@ class StatsFragment : Fragment() {
         }else if (timeSelected == 2){
             lineChart.xAxis.valueFormatter = YearValueFormatter()
             lineChart.xAxis.setLabelCount(12)
+        } else {
+            lineChart.xAxis.valueFormatter = WeekValueFormatter()
+            lineChart.xAxis.setLabelCount(7)
         }
 
         lineChart.xAxis.setDrawGridLines(false)
