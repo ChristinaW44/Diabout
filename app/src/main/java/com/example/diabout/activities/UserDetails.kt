@@ -26,6 +26,7 @@ class UserDetails : ComponentActivity() {
         val reminderButton = findViewById<Button>(R.id.reminder)
         reminderButton.setOnClickListener {
             val intent = Intent(this, SetReminder::class.java)
+            intent.putExtra("ID", userID)
             startActivity(intent)
             finish()
         }

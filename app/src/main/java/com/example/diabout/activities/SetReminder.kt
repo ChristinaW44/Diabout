@@ -10,6 +10,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.DatePicker
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -32,13 +36,36 @@ class SetReminder : AppCompatActivity() {
 
     lateinit var timePicker: TimePicker
     lateinit var datePicker: DatePicker
+    lateinit var repeatNeverRadio: RadioButton
+    lateinit var repeatHourlyRadio: RadioButton
+    lateinit var repeatDailyRadio: RadioButton
+    lateinit var repeatWeeklyRadio: RadioButton
+    lateinit var reminderText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_reminder)
 
+        val intent = intent
+        val userID = intent.getStringExtra("ID")
+
+        val backButton = findViewById<ImageButton>(R.id.backButton)
+        backButton.setOnClickListener {
+            val intent = Intent(this, UserDetails::class.java)
+            intent.putExtra("ID", userID)
+            startActivity(intent)
+            finish()
+        }
+
         timePicker = findViewById<TimePicker>(R.id.timePicker)
         datePicker = findViewById<DatePicker>(R.id.datePicker)
+
+        repeatNeverRadio = findViewById<RadioButton>(R.id.repeatNever)
+        repeatHourlyRadio= findViewById<RadioButton>(R.id.repeatHourly)
+        repeatDailyRadio= findViewById<RadioButton>(R.id.repeatDaily)
+        repeatWeeklyRadio= findViewById<RadioButton>(R.id.repeatWeekly)
+
+        reminderText = findViewById<EditText>(R.id.reminderMessage)
 
         createReminderChannel()
         val setRem = findViewById<Button>(R.id.setReminder)
@@ -52,9 +79,10 @@ class SetReminder : AppCompatActivity() {
                 applicationContext,
                 0,
                 intent,
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                PendingIntent.FLAG_MUTABLE
             )
             alarmManager.cancel(pendingIntent)
+            Toast.makeText(this, "Reminder Deleted", Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -62,26 +90,46 @@ class SetReminder : AppCompatActivity() {
     @SuppressLint("ScheduleExactAlarm")
     private fun scheduleReminder() {
         val intent = Intent(applicationContext, Broadcaster::class.java)
-        val thisTitle = "Test Title"
-        val thisMessage = "Test message"
+        val thisTitle = "Reminder"
+        val thisMessage = reminderText.text.toString()
         val id = System.currentTimeMillis().toInt()
         intent.putExtra(titleExtra,thisTitle)
         intent.putExtra(message,thisMessage)
 
-        val pendingIntent = PendingIntent.getBroadcast(
-            applicationContext,
-            0,
-            intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
+        val pendingIntent = PendingIntent.getBroadcast(applicationContext, 0, intent,
+            PendingIntent.FLAG_MUTABLE)
         
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val time = getTime()
-        alarmManager.setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP,
-            time,
-            pendingIntent
-        )
+
+        if(repeatNeverRadio.isChecked){
+            alarmManager.setExactAndAllowWhileIdle(
+                AlarmManager.RTC_WAKEUP,
+                time,
+                pendingIntent
+            )
+        } else{
+            if(repeatHourlyRadio.isChecked){
+                alarmManager.setRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    time,
+                    1000 * 60 ,
+                    pendingIntent)
+            } else if(repeatDailyRadio.isChecked){
+                alarmManager.setInexactRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    time,
+                    1000 * 60 * 60 * 24,
+                    pendingIntent)
+            } else{
+                alarmManager.setInexactRepeating(
+                    AlarmManager.RTC_WAKEUP,
+                    time,
+                    1000 * 60 * 60 * 24 * 7,
+                    pendingIntent)
+            }
+        }
+
 
         Toast.makeText(applicationContext, "Reminder Set", Toast.LENGTH_LONG).show()
     }
