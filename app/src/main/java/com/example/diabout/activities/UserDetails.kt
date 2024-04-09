@@ -1,13 +1,17 @@
 package com.example.diabout.activities
 
+import android.Manifest
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.example.diabout.R
 import com.example.diabout.database.UserDBHelper
 
@@ -36,6 +40,12 @@ class UserDetails : ComponentActivity() {
             intent.putExtra("ID", userID)
             startActivity(intent)
             finish()
+        }
+
+        val exportButton = findViewById<Button>(R.id.exportData)
+        exportButton.setOnClickListener {
+            userDBHandler.exportData(this, "exported_data_${System.currentTimeMillis()}.csv", userID!!)
+
         }
 
         val logOutButton = findViewById<Button>(R.id.logOut)

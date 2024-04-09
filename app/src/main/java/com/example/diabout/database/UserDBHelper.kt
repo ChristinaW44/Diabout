@@ -5,6 +5,13 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
+import android.widget.Toast
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -153,6 +160,40 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         cursor.close()
         db.close()
         return recordList
+    }
+
+    fun exportData(context: Context, filename : String, id : String){
+        val db = this.writableDatabase
+        val selectedColumns = "$RECORD_COLUMN_USER_ID = ?"
+        val selectedUserParams =  arrayOf(id)
+        val cursor = db.query(RECORD_TABLE_NAME, null, selectedColumns, selectedUserParams, null, null, null)
+        try{
+
+            val directory = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toURI())
+
+            val file = File(directory, filename)
+            println("test")
+            val outputStream = FileOutputStream(file)
+
+
+            while (cursor.moveToNext()){
+                val data = "${cursor.getInt(0)}, ${cursor.getInt(1)}, ${cursor.getInt(2)}, ${cursor.getString(3)}, ${cursor.getInt(1)}"
+                outputStream.write(data.toByteArray())
+
+            }
+
+            outputStream.close()
+            cursor.close()
+            db.close()
+
+            val fileSize = file.length()
+            if(fileSize > 0){
+                Toast.makeText(context, "File created and can likely be found in Internal Storage/Documents", Toast.LENGTH_LONG).show()
+            }
+        } catch (e: IOException){
+            e.printStackTrace()
+            println("Error exporting data")
+        }
     }
 
 
