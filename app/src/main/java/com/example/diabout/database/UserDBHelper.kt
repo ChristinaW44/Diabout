@@ -57,6 +57,16 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         db.close()
     }
 
+    fun deleteUser(id: String){
+        val db = this.writableDatabase
+        val whereUser = "$USER_COLUMN_ID = ?"
+        val whereRecord = "$RECORD_COLUMN_USER_ID = ?"
+        val args = arrayOf(id)
+        db.delete(USER_TABLE_NAME, whereUser, args)
+        db.delete(RECORD_TABLE_NAME, whereRecord, args)
+        db.close()
+    }
+
     fun findUser (email : String, password : String) : Boolean {
         val db = this.readableDatabase
         val selectedColumns = "$USER_COLUMN_EMAIL = ? AND $USER_COLUMN_PASSWORD = ?"
