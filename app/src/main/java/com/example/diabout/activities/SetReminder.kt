@@ -44,6 +44,19 @@ class SetReminder : AppCompatActivity() {
         val setRem = findViewById<Button>(R.id.setReminder)
         setRem.setOnClickListener { scheduleReminder() }
 
+        val cancelRem = findViewById<Button>(R.id.cancelAll)
+        cancelRem.setOnClickListener {
+            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val intent = Intent(applicationContext, Broadcaster::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(
+                applicationContext,
+                0,
+                intent,
+                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            )
+            alarmManager.cancel(pendingIntent)
+        }
+
     }
 
     @SuppressLint("ScheduleExactAlarm")
@@ -51,12 +64,13 @@ class SetReminder : AppCompatActivity() {
         val intent = Intent(applicationContext, Broadcaster::class.java)
         val thisTitle = "Test Title"
         val thisMessage = "Test message"
+        val id = System.currentTimeMillis().toInt()
         intent.putExtra(titleExtra,thisTitle)
         intent.putExtra(message,thisMessage)
 
         val pendingIntent = PendingIntent.getBroadcast(
             applicationContext,
-            id,
+            0,
             intent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
@@ -70,18 +84,8 @@ class SetReminder : AppCompatActivity() {
         )
 
         Toast.makeText(applicationContext, "Reminder Set", Toast.LENGTH_LONG).show()
-//        showAlert(time, thisTitle, thisMessage)
     }
 
-//    private fun showAlert(time: Long, thisTitle: String, thisMessage: String) {
-//        val date = Date(time)
-//        val dateFormat =  android.text.format.DateFormat.getLongDateFormat(applicationContext)
-//        val timeFormat =  android.text.format.DateFormat.getTimeFormat(applicationContext)
-//
-//        AlertDialog.Builder(this)
-//            .setTitle("notification Scheduled")
-//
-//    }
 
     private fun getTime(): Long {
         val minute = timePicker.minute
