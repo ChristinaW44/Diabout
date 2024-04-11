@@ -3,7 +3,9 @@ package com.example.diabout.activities
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.DatePicker
 import android.widget.EditText
+import android.widget.TimePicker
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
@@ -18,11 +20,22 @@ import java.util.Calendar
 class RecordFood : ComponentActivity() {
     lateinit var dbHandler : UserDBHelper
     lateinit var caloriesText : EditText
+    lateinit var timePicker : TimePicker
+    lateinit var datePicker: DatePicker
+
+    private fun checkInput(value: String): Boolean {
+        return if (value.length >0)
+            true
+        else
+            false
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_record_food)
 
         caloriesText = findViewById(R.id.caloriesInput)
+        timePicker= findViewById(R.id.timePicker)
+        datePicker = findViewById(R.id.datePicker)
 
         dbHandler = UserDBHelper(this)
 
@@ -39,17 +52,43 @@ class RecordFood : ComponentActivity() {
 
         val submit = findViewById<Button>(R.id.submitButton)
         submit.setOnClickListener {
-            val time = Calendar.getInstance().time
-            val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm")
-            val current = formatter.format(time)
-            val value = caloriesText.text.toString().toInt()
-            val record = RecordItem(0, userID!!.toInt(), 3, current, value)
-            dbHandler.addRecord(record)
-            Toast.makeText(this, "calories added", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, Dashboard::class.java)
-            intent.putExtra("ID", userID)
-            startActivity(intent)
-            finish()
+            val value = caloriesText.text.toString()
+            if (checkInput(value)){
+                addCalories(userID!!, value.toInt())
+                Toast.makeText(this, "Calories added", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, Dashboard::class.java)
+                intent.putExtra("ID", userID)
+                startActivity(intent)
+                finish()
+            } else {
+                Toast.makeText(this, "Please enter a calories value", Toast.LENGTH_SHORT).show()
+            }
         }
+    }
+
+    private fun addCalories(userID: String, value: Int) {
+        var year = datePicker.year.toString()
+        var month = (datePicker.month+1).toString()
+        var day = datePicker.dayOfMonth.toString()
+        var hour = timePicker.hour.toString()
+        var minute = timePicker.minute.toString()
+
+        if(month.length == 1){
+            month = "0${month}"
+        }
+        if(day.length == 1){
+            day = "0${day}"
+        }
+        if(hour.length == 1){
+            hour = "0${hour}"
+        }
+        if(minute.length == 1){
+            minute = "0${minute}"
+        }
+
+        val time = "$year-$month-$day $hour:$minute"
+        val record = RecordItem(0, userID.toInt(), 3, time, value)
+        dbHandler.addRecord(record)
+
     }
 }

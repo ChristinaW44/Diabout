@@ -5,48 +5,82 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.RecordActivity">
+    tools:context=".activities.RecordActivity"
+    >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="-6dp"
-        android:layout_margin="20sp">
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="116dp"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="20dp"/>
 
-        <Button
-            android:id="@+id/backButton"
-            android:layout_width="116dp"
-            android:layout_height="wrap_content"
-            android:text="Back" />
 
-        <TextView
-            android:id="@+id/addActivity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Add Activity" />
+    <TextView
+        android:id="@+id/addActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Add Activity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/backButton"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_margin="40dp"/>
 
-        <TextView
-            android:id="@+id/stepsText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Steps" />
+    <TextView
+        android:id="@+id/stepsText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Steps : "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addActivity"
+        android:layout_margin="30dp"/>
 
-        <EditText
-            android:id="@+id/stepsInput"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number" />
+    <EditText
+        android:id="@+id/stepsInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/stepsText"
+        app:layout_constraintTop_toBottomOf="@+id/addActivity" />
 
-        <Button
-            android:id="@+id/submitButton"
-            android:layout_width="116dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Add" />
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX="0.6"
+        android:scaleY="0.6"
+        android:timePickerMode="spinner"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stepsInput" />
 
-    </LinearLayout>
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        android:layout_marginTop="20dp"
+        android:scaleX="0.6"
+        android:scaleY="0.6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stepsInput" />
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="116dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="32dp"
+        android:text="Add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timePicker" />
 </androidx.constraintlayout.widget.ConstraintLayout>
