@@ -3,12 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingTop="70dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
@@ -22,7 +24,7 @@
                 android:id="@+id/tableLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="100px"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -35,8 +37,8 @@
                         android:id="@+id/textView3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Glucose Reading : "
-                        android:layout_gravity="end |center"/>
+                        android:layout_gravity="end |center"
+                        android:text="Glucose Reading : " />
 
                     <EditText
                         android:id="@+id/gReading"
@@ -66,7 +68,7 @@
                         android:inputType="number" />
 
                     <ImageButton
-                        android:id="@+id/infoButton1"
+                        android:id="@+id/targetInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -87,6 +89,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="end |center"
                         android:text="Amount to Correct : " />
+
                     <TextView
                         android:id="@+id/amountCorrectText"
                         android:layout_width="wrap_content"
@@ -115,7 +118,7 @@
                         android:inputType="number" />
 
                     <ImageButton
-                        android:id="@+id/infoButton2"
+                        android:id="@+id/correctInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -141,24 +144,50 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end |center"
-                android:layout_margin="40dp"
+                android:layout_margin="20dp"
                 android:text="Glucose Correction Bolus : "
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/calcButton"
                 android:textSize="20sp"/>
 
-            <TextView
-                android:id="@+id/note"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="372dp"
                 android:layout_height="wrap_content"
-                android:padding="50dp"
-                android:layout_marginTop="60dp"
-                android:text="NOTE: You should not need to correct a high blood glucose with each meal. If you need insulin to correct high blood glucose often, the insulin dose may need to be changed at each meal. The goal is to predict and prevent high blood glucose."
+                android:layout_margin="50dp"
+                android:background="@drawable/note_rounded_square"
+                android:orientation="vertical"
+                android:padding="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/calculationResult"
-                android:textSize="11sp"/>
+                android:elevation="10dp">
+
+                <TextView
+                    android:id="@+id/note"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/correction_bolus"
+                    android:textColor="@color/dark_blue"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/noteRef"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/meal_bolus_reference"
+                    android:textColor="@color/dark_blue"
+                    android:textSize="9sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </LinearLayout>
+
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

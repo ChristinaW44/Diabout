@@ -56,7 +56,7 @@ class UserDetails : ComponentActivity() {
             val dialogLayout = inflater.inflate(R.layout.dialog_change_name, null)
             alertBuilder.setTitle("Change Name")
                 .setView(dialogLayout)
-                .setNegativeButton("Close"){dialog, which ->
+                .setNegativeButton("Close"){ dialog, _ ->
                     dialog.dismiss()
                 }
 
@@ -90,7 +90,7 @@ class UserDetails : ComponentActivity() {
             val dialogLayout = inflater.inflate(R.layout.dialog_change_email, null)
             alertBuilder.setTitle("Change Email")
                 .setView(dialogLayout)
-                .setNegativeButton("Close"){dialog, which ->
+                .setNegativeButton("Close"){ dialog, _ ->
                     dialog.dismiss()
                 }
 
@@ -122,7 +122,7 @@ class UserDetails : ComponentActivity() {
             val dialogLayout = inflater.inflate(R.layout.dialog_change_password, null)
             alertBuilder.setTitle("Change Password")
                 .setView(dialogLayout)
-                .setNegativeButton("Close"){dialog, which ->
+                .setNegativeButton("Close"){ dialog, _ ->
                     dialog.dismiss()
                 }
 
@@ -157,7 +157,7 @@ class UserDetails : ComponentActivity() {
 
         val exportButton = findViewById<Button>(R.id.exportData)
         exportButton.setOnClickListener {
-            userDBHandler.exportData(this, "exported_data_${System.currentTimeMillis()}.csv", userID!!)
+            userDBHandler.exportData(this, "exported_data_${System.currentTimeMillis()}.csv", userID)
 
         }
 
@@ -173,13 +173,13 @@ class UserDetails : ComponentActivity() {
             val alertBuilder = AlertDialog.Builder(this)
             alertBuilder.setTitle("Confirm Delete User")
                 .setMessage("Are you sure you want to delete this user account?")
-                .setPositiveButton("Yes"){dialog, which ->
-                    userDBHandler.deleteUser(userID!!)
+                .setPositiveButton("Yes"){ _, _ ->
+                    userDBHandler.deleteUser(userID)
                     val intent = Intent(this, LogIn::class.java)
                     startActivity(intent)
                     finish()
                 }
-                .setNegativeButton("No"){dialog, which ->
+                .setNegativeButton("No"){ dialog, _ ->
                     dialog.dismiss()
                 }
             val alertDialog = alertBuilder.create()

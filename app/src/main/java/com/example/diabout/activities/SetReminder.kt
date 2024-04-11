@@ -92,7 +92,6 @@ class SetReminder : AppCompatActivity() {
         val intent = Intent(applicationContext, Broadcaster::class.java)
         val thisTitle = "Reminder"
         val thisMessage = reminderText.text.toString()
-        val id = System.currentTimeMillis().toInt()
         intent.putExtra(titleExtra,thisTitle)
         intent.putExtra(message,thisMessage)
 

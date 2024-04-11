@@ -9,7 +9,9 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FF0000</color>
 
-    <color name="main_blue">#8bafb6</color>
+    <color name="main_blue4">#8bafb6</color>
+    <color name="main_blue">#B8D1D6</color>
+    <color name="dark_blue">#142B30</color>
     <color name="light_blue">#B7E7F1</color>
     <color name="medium_grey">#B7C2C2</color>
     <color name="light_grey">#dae0e0</color>

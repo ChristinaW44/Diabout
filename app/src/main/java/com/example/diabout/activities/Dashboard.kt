@@ -1,22 +1,17 @@
 package com.example.diabout.activities
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.diabout.R
 import com.example.diabout.database.UserDBHelper
 import com.example.diabout.fragments.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-//import com.google.android.material.bottomnavigation.BottomNavigationView
-
 class Dashboard : AppCompatActivity() {
 
-    lateinit var bottomNavigationView: BottomNavigationView
-    lateinit var userDBHandler : UserDBHelper
+    private lateinit var bottomNavigationView: BottomNavigationView
+    private lateinit var userDBHandler : UserDBHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,31 +21,30 @@ class Dashboard : AppCompatActivity() {
         val statsFragment = StatsFragment()
         val calcFragment = CalcFragment()
         val infoFragment = InfoFragment()
-        bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigationView)!!
-
+        bottomNavigationView = findViewById(R.id.bottomNavigationView)!!
         userDBHandler = UserDBHelper(this)
         val intent = intent
         val userID = intent.getStringExtra("ID")
         val name = userDBHandler.getNameFromID(userID!!)
 
-        setFragment(homeFragment, name, userID!!)
+        setFragment(homeFragment, name, userID)
 
         bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.navHome-> {
-                    setFragment(homeFragment , name, userID!!)
+                    setFragment(homeFragment , name, userID)
                     true
                 }
                 R.id.navStats -> {
-                    setFragment(statsFragment, name, userID!!)
+                    setFragment(statsFragment, name, userID)
                     true
                 }
                 R.id.navCalc-> {
-                    setFragment(calcFragment, name, userID!!)
+                    setFragment(calcFragment, name, userID)
                     true
                 }
                 R.id.navInfo -> {
-                    setFragment(infoFragment, name, userID!!)
+                    setFragment(infoFragment, name, userID)
                     true
                 }
 

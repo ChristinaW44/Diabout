@@ -65,7 +65,7 @@
                         android:inputType="number" />
 
                     <ImageButton
-                        android:id="@+id/imageButton"
+                        android:id="@+id/ratioInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -98,17 +98,42 @@
                 app:layout_constraintTop_toBottomOf="@+id/calcButton"
                 android:textSize="20sp"/>
 
-            <TextView
-                android:id="@+id/note"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="372dp"
                 android:layout_height="wrap_content"
-                android:padding="50dp"
+                android:layout_margin="50dp"
                 android:layout_marginTop="60dp"
-                android:text="NOTE: You may give insulin right after a meal if do not know the amount of carbohydrates that will be eaten, like with a very young child or sickness. Do not give rapid-acting insulin when you eat carbohydrate to treat a low blood glucose or to prevent a low blood glucose."
+                android:background="@drawable/note_rounded_square"
+                android:orientation="vertical"
+                android:padding="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/calculationResult"
-                android:textSize="11sp"/>
+                android:elevation="10dp">
+
+                <TextView
+                    android:id="@+id/note"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/meal_bolus"
+                    android:textColor="@color/dark_blue"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/noteRef"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/meal_bolus_reference"
+                    android:textColor="@color/dark_blue"
+                    android:textSize="9sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
