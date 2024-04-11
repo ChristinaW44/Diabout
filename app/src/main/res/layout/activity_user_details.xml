@@ -18,19 +18,85 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.cardview.widget.CardView
+        android:id="@+id/datailsCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/backButton"
+        android:layout_margin="20dp"
+        android:background="@drawable/rounded_rectangle"
+        android:elevation="50dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/titleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="User Details"
+                android:textStyle="bold"
+                android:layout_margin="5dp"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/nameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Name : "
+                android:layout_margin="5dp"/>
+
+            <TextView
+                android:id="@+id/emailText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email : "
+                android:layout_margin="5dp"/>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
 
     <Button
-        android:id="@+id/editDetails"
+        android:id="@+id/changeName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_margin="50px"
         android:background="@drawable/home_record_buttons"
-        android:text="Edit Details"
+        android:text="Change Name"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backButton" />
+        app:layout_constraintTop_toBottomOf="@+id/datailsCard" />
+
+    <Button
+        android:id="@+id/changeEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="50px"
+        android:background="@drawable/home_record_buttons"
+        android:text="Change Email"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/changeName" />
+
+    <Button
+        android:id="@+id/changePassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="50px"
+        android:background="@drawable/home_record_buttons"
+        android:text="Change Password"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/changeEmail" />
 
     <Button
         android:id="@+id/reminder"
@@ -43,7 +109,7 @@
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editDetails" />
+        app:layout_constraintTop_toBottomOf="@+id/changePassword" />
 
     <Button
         android:id="@+id/exportData"

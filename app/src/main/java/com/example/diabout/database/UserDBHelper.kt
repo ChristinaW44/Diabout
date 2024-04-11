@@ -129,6 +129,55 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         return name
     }
 
+    @SuppressLint("Range")
+    fun getEmailFromID (id : String) : String {
+        val db = this.readableDatabase
+        val selectedColumns = "$USER_COLUMN_ID = ?"
+        val selectedUserParams =  arrayOf(id)
+        val cursor = db.query(USER_TABLE_NAME, null, selectedColumns, selectedUserParams, null, null, null)
+        var email = ""
+        if (cursor.count > 0) {
+            cursor.moveToFirst()
+            email = cursor.getString(cursor.getColumnIndex(USER_COLUMN_EMAIL))
+        }
+        cursor.close()
+        db.close()
+        return email
+    }
+
+    fun updateName(id: String, name: String){
+        val db = this.writableDatabase
+        val value = ContentValues().apply {
+            put(USER_COLUMN_NAME, name)
+        }
+        val where = "$USER_COLUMN_ID = ?"
+        val args = arrayOf((id))
+        db.update(USER_TABLE_NAME, value, where, args)
+        db.close()
+    }
+
+    fun updateEmail(id: String, email: String){
+        val db = this.writableDatabase
+        val value = ContentValues().apply {
+            put(USER_COLUMN_EMAIL, email)
+        }
+        val where = "$USER_COLUMN_ID = ?"
+        val args = arrayOf((id))
+        db.update(USER_TABLE_NAME, value, where, args)
+        db.close()
+    }
+
+    fun updatePassword(id: String, password: String){
+        val db = this.writableDatabase
+        val value = ContentValues().apply {
+            put(USER_COLUMN_PASSWORD, password)
+        }
+        val where = "$USER_COLUMN_ID = ?"
+        val args = arrayOf((id))
+        db.update(USER_TABLE_NAME, value, where, args)
+        db.close()
+    }
+
     fun addRecord(record: RecordItem){
         val db = this.writableDatabase
         val values = ContentValues()
