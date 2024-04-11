@@ -113,7 +113,7 @@ class SetReminder : AppCompatActivity() {
                 alarmManager.setRepeating(
                     AlarmManager.RTC_WAKEUP,
                     time,
-                    1000 * 60 ,
+                    1000 * 60 * 60 ,
                     pendingIntent)
             } else if(repeatDailyRadio.isChecked){
                 alarmManager.setInexactRepeating(

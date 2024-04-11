@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.example.diabout.R
 import com.example.diabout.database.UserDBHelper
 
@@ -16,6 +17,8 @@ class LogIn : ComponentActivity() {
     private lateinit var dbHandler : UserDBHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        installSplashScreen()
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 

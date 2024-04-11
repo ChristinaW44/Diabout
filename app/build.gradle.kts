@@ -78,5 +78,7 @@ dependencies {
     implementation("com.jjoe64:graphview:4.2.2")
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("androidx.health.connect:connect-client:1.1.0-alpha02")
+    implementation("androidx.core:core-splashscreen:1.1.0-rc01")
+
 
 }

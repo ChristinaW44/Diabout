@@ -1,3 +1,5 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <!-- Round app icon can take all of default space -->
+    <dimen name="splash_screen_icon_size">48dp</dimen>
 </resources>
