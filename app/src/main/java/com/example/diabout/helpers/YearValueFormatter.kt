@@ -5,7 +5,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 
 class YearValueFormatter() : ValueFormatter()  {
 
-    private val month = arrayOf("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug","Sep","Oct","Nov","Dec")
+    private val month = arrayOf("J","F","M","A","M","J","J","A","S","O","N","D")
 
     override fun getAxisLabel(value: Float, axis: AxisBase?): String {
         return month.getOrNull(value.toInt()) ?: value.toString()

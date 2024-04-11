@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.diabout.R
 import com.example.diabout.database.RecordItem
@@ -12,11 +13,12 @@ import com.example.diabout.database.UserDBHelper
 import com.example.diabout.helpers.MonthValueFormatter
 import com.example.diabout.helpers.WeekValueFormatter
 import com.example.diabout.helpers.YearValueFormatter
+import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
 import com.google.android.material.tabs.TabLayout
 import java.time.LocalDate
 import java.util.Calendar
@@ -25,6 +27,7 @@ class StatsFragment : Fragment() {
 
     lateinit var userDBHandler : UserDBHelper
     lateinit var allRecords: List<RecordItem>
+    lateinit var titleText : TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,14 +41,8 @@ class StatsFragment : Fragment() {
 
         userDBHandler = UserDBHelper(context)
 
-        val text1 = view.findViewById<View>(R.id.barChartTitleTV) as TextView
-
-        val currentDate = LocalDate.now()
-        val dateNeeded = currentDate.minusDays(7)
-        val value = currentDate.dayOfWeek.value
-
-//        val daysInMonth = Calendar.getInstance().firstDayOfWeek
-        text1.text = value.toString()
+        titleText = view.findViewById<View>(R.id.title) as TextView
+        titleText.text = "Average glucose levels (mg/dL)"
 
         var recordTypeSelected = 1
         var timeSelected = 0
@@ -56,6 +53,13 @@ class StatsFragment : Fragment() {
         recordTypeLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 recordTypeSelected = tab.position + 1
+
+                if (recordTypeSelected == 1)
+                    titleText.text = "Average glucose levels (mg/dL)"
+                else if (recordTypeSelected == 2)
+                    titleText.text = "Total steps"
+                else
+                    titleText.text = "Total calories consumed"
 
                 if (timeSelected == 0){
                     setGraphDataWeekly(view , userID!!, recordTypeSelected)
@@ -93,23 +97,14 @@ class StatsFragment : Fragment() {
     }
 
     fun setGraphDataWeekly(view : View, userID : String, recordTypeSelected : Int) {
-        val entries = ArrayList<Entry>()
+        val entries = ArrayList<BarEntry>()
         allRecords = userDBHandler.findAllUserRecords(userID.toInt())
-
-//        entries.add(Entry(1f, 1f))
-//        entries.add(Entry(2f, 2f))
-//        entries.add(Entry(3f, 3f))
-//        entries.add(Entry(4f, 4f))
-//        entries.add(Entry(5f, 5f))
-//        entries.add(Entry(6f, 6f))
-//        entries.add(Entry(7f, 7f))
 
         val current = LocalDate.now()
         val dayValue = current.dayOfWeek.value
         var count = 0
 
         while (count != dayValue) {
-            println((dayValue - count -1).toString())
             var newDate = getDateNeeded(current, (dayValue - count - 1).toLong())
 
             var currentYear = newDate.year
@@ -135,13 +130,24 @@ class StatsFragment : Fragment() {
             }
 
             if (total != 0){
-                val average = total / records
-                entries.add(Entry((count).toFloat(),average.toFloat()))
+                if (recordTypeSelected == 1){
+                    val average = total / records
+                    entries.add(BarEntry((count).toFloat(),average.toFloat()))
+                } else
+                    entries.add(BarEntry((count).toFloat(),total.toFloat()))
+
             } else {
-                entries.add(Entry(count.toFloat(),0F))
+                entries.add(BarEntry(count.toFloat(),0F))
             }
             count ++
         }
+
+        var restData = dayValue
+        while (restData < 7){
+            entries.add(BarEntry(restData.toFloat(),0F))
+            restData ++
+        }
+
         createLineChart(view, entries, 0)
     }
 
@@ -155,14 +161,13 @@ class StatsFragment : Fragment() {
         val currentYear = 2024
         val currentMonth = 4
 
-        val entries = ArrayList<Entry>()
+        val entries = ArrayList<BarEntry>()
 
         allRecords = userDBHandler.findAllUserRecords(userID.toInt())
 
         val perDayData = Array(daysInMonth) {Array<Int>(2){0} }
 
         for (i in allRecords){
-            //println(i.recordtype.toString() + " " + recordTypeSelected.toString())
             if (i.recordtype == recordTypeSelected) {
                 val date = i.time.split(" ")
                 val dateSplit = date[0].split("-")
@@ -170,12 +175,12 @@ class StatsFragment : Fragment() {
                     if (dateSplit[1].toInt() == currentMonth){
                         val day = dateSplit[2].toInt()
 
-                        if (perDayData[day][1] == 0){
-                            perDayData[day][0] = i.value
-                            perDayData[day][1] = 1
+                        if (perDayData[day-1][1] == 0){
+                            perDayData[day-1][0] = i.value
+                            perDayData[day-1][1] = 1
                         } else {
-                            perDayData[day][0] += i.value
-                            perDayData[day][1] += 1
+                            perDayData[day-1][0] += i.value
+                            perDayData[day-1][1] += 1
                         }
                     }
                 }
@@ -184,11 +189,15 @@ class StatsFragment : Fragment() {
 
         var count = 0
         for (j in perDayData){
+
             if (j[0] != 0) {
-                val average = j[0] / j[1]
-                entries.add(Entry(count.toFloat(),average.toFloat()))
+                if (recordTypeSelected == 1) {
+                    val average = j[0] / j[1]
+                    entries.add(BarEntry(count.toFloat(), average.toFloat()))
+                } else
+                    entries.add(BarEntry(count.toFloat(), j[0].toFloat()))
             } else {
-                entries.add(Entry(count.toFloat(),0f))
+                entries.add(BarEntry(count.toFloat(),0f))
             }
             count++
         }
@@ -201,25 +210,24 @@ class StatsFragment : Fragment() {
 
         val currentYear = 2024
 
-        val entries = ArrayList<Entry>()
+        val entries = ArrayList<BarEntry>()
 
         allRecords = userDBHandler.findAllUserRecords(userID.toInt())
 
         val perMonthData = Array(12) {Array<Int>(2){0} }
 
         for (i in allRecords){
-            println(i.recordtype.toString() + " " + recordTypeSelected.toString())
             if (i.recordtype == recordTypeSelected) {
                 val date = i.time.split(" ")
                 val dateSplit = date[0].split("-")
                 if (dateSplit[0].toInt() == currentYear){
                     val month = dateSplit[1].toInt()
-                    if (perMonthData[month][1] == 0){
-                        perMonthData[month][0] = i.value
-                        perMonthData[month][1] = 1
+                    if (perMonthData[month-1][1] == 0){
+                        perMonthData[month-1][0] = i.value
+                        perMonthData[month-1][1] = 1
                     } else {
-                        perMonthData[month][0] += i.value
-                        perMonthData[month][1] += 1
+                        perMonthData[month-1][0] += i.value
+                        perMonthData[month-1][1] += 1
                     }
                 }
             }
@@ -228,10 +236,13 @@ class StatsFragment : Fragment() {
         var count = 0
         for (j in perMonthData){
             if (j[0] != 0) {
-                val average = j[0] / j[1]
-                entries.add(Entry(count.toFloat(),average.toFloat()))
+                if (recordTypeSelected == 1) {
+                    val average = j[0] / j[1]
+                    entries.add(BarEntry(count.toFloat(), average.toFloat()))
+                } else
+                    entries.add(BarEntry(count.toFloat(), j[0].toFloat()))
             } else {
-                entries.add(Entry(count.toFloat(),0f))
+                entries.add(BarEntry(count.toFloat(),0f))
             }
             count++
         }
@@ -239,43 +250,38 @@ class StatsFragment : Fragment() {
         createLineChart(view, entries, 2)
     }
 
-    private fun createLineChart(view : View, entries : ArrayList<Entry>, timeSelected : Int){
-        val lineChart = view.findViewById<View>(R.id.chart) as LineChart
-        val v1 = LineDataSet(entries, "My Type")
+    private fun createLineChart(view : View, entries : ArrayList<BarEntry>, timeSelected : Int){
+        val barChart = view.findViewById<View>(R.id.chart) as BarChart
+        val v1 = BarDataSet(entries, "My Type")
+        v1.setDrawValues(false)
+        v1.setColor(ContextCompat.getColor(context!!, R.color.main_blue))
+        barChart.data = BarData(v1)
 
-//        v1.setDrawValues(false)
-//        v1.setDrawFilled(false)
-//        v1.lineWidth = 3f
-//        v1.fillColor = R.color.main_blue
+        barChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        barChart.axisLeft.axisMinimum= 0f
+        barChart.axisRight.axisMinimum = 0f
+        barChart.description.isEnabled = false
+        barChart.legend.isEnabled = false
+        barChart.setScaleEnabled(false)
+        barChart.animateY(500);
+        barChart.xAxis.setDrawAxisLine(false)
+        barChart.xAxis.setDrawGridLines(false)
 
-//        lineChart.xAxis.labelRotationAngle = 0f
-
-        lineChart.data = LineData(v1)
-
-        lineChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-        lineChart.description.isEnabled = false
-        lineChart.legend.isEnabled = false
-        lineChart.setScaleEnabled(false)
 
         if(timeSelected == 1){
-            lineChart.xAxis.valueFormatter = MonthValueFormatter()
+            barChart.xAxis.valueFormatter = MonthValueFormatter()
         }else if (timeSelected == 2){
-            lineChart.xAxis.valueFormatter = YearValueFormatter()
-            lineChart.xAxis.setLabelCount(12)
+            barChart.xAxis.valueFormatter = YearValueFormatter()
+            barChart.xAxis.setLabelCount(12)
         } else {
-            lineChart.xAxis.valueFormatter = WeekValueFormatter()
-            lineChart.xAxis.setLabelCount(7)
+            barChart.xAxis.valueFormatter = WeekValueFormatter()
+            barChart.xAxis.setLabelCount(7)
         }
 
-        lineChart.xAxis.setDrawGridLines(false)
+        barChart.axisRight.isEnabled = false
 
-        lineChart.axisRight.isEnabled = false
-
-//        lineChart.description.text = "Days"
-//        lineChart.setNoDataText("none")
-
-        lineChart.notifyDataSetChanged();
-        lineChart.invalidate();
+        barChart.notifyDataSetChanged();
+        barChart.invalidate();
     }
 
     fun resetChart(view : View){

@@ -6,7 +6,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 class WeekValueFormatter() : ValueFormatter() {
 
     private val month =
-        arrayOf("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun")
+        arrayOf("M", "T", "W", "T", "F", "S", "S")
 
     override fun getAxisLabel(value: Float, axis: AxisBase?): String {
         return month.getOrNull(value.toInt()) ?: value.toString()
