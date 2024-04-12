@@ -15,8 +15,8 @@ import com.example.diabout.database.RecordItem
 class RecyclerAdapter(private val recordList: List<RecordItem>, private val dateList: MutableList<String>) : RecyclerView.Adapter<RecyclerAdapter.ViewHolderClass>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass {
-        val activityView = LayoutInflater.from(parent.context).inflate(R.layout.record_list_layout, parent, false)
-        return ViewHolderClass(activityView)
+        val recordView = LayoutInflater.from(parent.context).inflate(R.layout.record_list_layout, parent, false)
+        return ViewHolderClass(recordView)
     }
 
     override fun getItemCount(): Int {
@@ -33,7 +33,7 @@ class RecyclerAdapter(private val recordList: List<RecordItem>, private val date
         } else if (current.recordtype == 2){
             type = "Steps"
         } else {
-            type = "Calories"
+            type = "Carbs (g)"
         }
         holder.desc.text = type + " : "+ current.value.toString()
 

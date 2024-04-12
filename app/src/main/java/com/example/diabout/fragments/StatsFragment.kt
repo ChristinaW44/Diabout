@@ -59,7 +59,7 @@ class StatsFragment : Fragment() {
                 else if (recordTypeSelected == 2)
                     titleText.text = "Total steps"
                 else
-                    titleText.text = "Total calories consumed"
+                    titleText.text = "Total carbs consumed"
 
                 if (timeSelected == 0){
                     setGraphDataWeekly(view , userID!!, recordTypeSelected)

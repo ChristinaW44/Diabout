@@ -23,7 +23,7 @@ tools:context=".activities.RecordFood"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:text="Add Calories"
+    android:text="Add Carbohydrates"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/backButton"
@@ -32,25 +32,26 @@ tools:context=".activities.RecordFood"
     android:layout_margin="40dp"/>
 
 <TextView
-    android:id="@+id/caloriesText"
+    android:id="@+id/carbsText"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="Food calories : "
+    android:text="Food carbs (g) : "
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/addFood"
     android:layout_margin="30dp"/>
 
-<EditText
-    android:id="@+id/caloriesInput"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_margin="20dp"
-    android:ems="10"
-    android:inputType="number"
-    app:layout_constraintStart_toEndOf="@+id/caloriesText"
-    app:layout_constraintTop_toBottomOf="@+id/addFood" />
+    <EditText
+        android:id="@+id/carbsInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintStart_toEndOf="@+id/carbsText"
+        app:layout_constraintTop_toBottomOf="@+id/addFood" />
 
-<TimePicker
+    <TimePicker
     android:id="@+id/timePicker"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -59,7 +60,7 @@ tools:context=".activities.RecordFood"
     android:timePickerMode="spinner"
     android:layout_marginTop="20dp"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/caloriesInput" />
+    app:layout_constraintTop_toBottomOf="@+id/carbsInput" />
 
 <DatePicker
     android:id="@+id/datePicker"
@@ -71,7 +72,7 @@ tools:context=".activities.RecordFood"
     android:scaleX="0.6"
     android:scaleY="0.6"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/caloriesInput" />
+    app:layout_constraintTop_toBottomOf="@+id/carbsInput" />
 
 <Button
     android:id="@+id/submitButton"

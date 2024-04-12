@@ -8,18 +8,13 @@ import android.widget.EditText
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.enableEdgeToEdge
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.diabout.R
 import com.example.diabout.database.RecordItem
 import com.example.diabout.database.UserDBHelper
-import java.text.SimpleDateFormat
-import java.util.Calendar
 
 class RecordFood : ComponentActivity() {
     lateinit var dbHandler : UserDBHelper
-    lateinit var caloriesText : EditText
+    lateinit var carbsText : EditText
     lateinit var timePicker : TimePicker
     lateinit var datePicker: DatePicker
 
@@ -33,7 +28,7 @@ class RecordFood : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_record_food)
 
-        caloriesText = findViewById(R.id.caloriesInput)
+        carbsText = findViewById(R.id.carbsInput)
         timePicker= findViewById(R.id.timePicker)
         datePicker = findViewById(R.id.datePicker)
 
@@ -52,21 +47,21 @@ class RecordFood : ComponentActivity() {
 
         val submit = findViewById<Button>(R.id.submitButton)
         submit.setOnClickListener {
-            val value = caloriesText.text.toString()
+            val value = carbsText.text.toString()
             if (checkInput(value)){
-                addCalories(userID!!, value.toInt())
-                Toast.makeText(this, "Calories added", Toast.LENGTH_SHORT).show()
+                addCarbs(userID!!, value.toInt())
+                Toast.makeText(this, "Carbs added", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, Dashboard::class.java)
                 intent.putExtra("ID", userID)
                 startActivity(intent)
                 finish()
             } else {
-                Toast.makeText(this, "Please enter a calories value", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please enter a value for carbs", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun addCalories(userID: String, value: Int) {
+    private fun addCarbs(userID: String, value: Int) {
         var year = datePicker.year.toString()
         var month = (datePicker.month+1).toString()
         var day = datePicker.dayOfMonth.toString()
