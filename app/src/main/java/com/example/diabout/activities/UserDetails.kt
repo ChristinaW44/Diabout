@@ -161,6 +161,14 @@ class UserDetails : ComponentActivity() {
 
         }
 
+        val connectButton = findViewById<Button>(R.id.connect)
+        connectButton.setOnClickListener {
+            val intent = Intent(this, HealthConnect::class.java)
+            intent.putExtra("ID", userID)
+            startActivity(intent)
+            finish()
+        }
+
         val logOutButton = findViewById<Button>(R.id.logOut)
         logOutButton.setOnClickListener {
             val intent = Intent(this, LogIn::class.java)

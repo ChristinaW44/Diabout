@@ -1,5 +1,6 @@
 package com.example.diabout.fragments
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,6 +19,8 @@ import com.example.diabout.activities.UserDetails
 import com.example.diabout.database.RecordItem
 import com.example.diabout.database.UserDBHelper
 import com.example.diabout.helpers.RecyclerAdapter
+import java.text.SimpleDateFormat
+import java.util.Calendar
 
 class HomeFragment : Fragment() {
 
@@ -90,11 +93,60 @@ class HomeFragment : Fragment() {
         recyclerView = view.findViewById<View>(R.id.recyclerView) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(container!!.context)
         recyclerView.setHasFixedSize(true)
+        recyclerView.setNestedScrollingEnabled(false);
 
         recyclerView.adapter = RecyclerAdapter(recordList, dateList)
 
+        setTodaysRecordsText(allRecords, view)
 
         return view
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private fun getTodaysDate(): String {
+        val time = Calendar.getInstance().time
+        val formatter = SimpleDateFormat("yyyy-MM-dd")
+        val current = formatter.format(time)
+        return current
+    }
+
+    private fun setTodaysRecordsText(allRecords: List<RecordItem>, view : View) {
+        
+        val todaysDate = getTodaysDate()
+
+        var totalGlucose = 0
+        var glucoseCount = 0
+        var totalSteps = 0
+        var totalCarbs = 0
+        
+        for(i in allRecords){
+            val date = i.time.split(" ")[0]
+            if (date == todaysDate){
+                if (i.recordtype == 1){
+                    totalGlucose += i.value
+                    glucoseCount ++
+                } else if (i.recordtype == 2)
+                    totalSteps += i.value
+                else
+                    totalCarbs +=i.value
+            }
+            
+        }
+
+        var averageGlucose = 0
+        val glucoseText = view.findViewById<View>(R.id.glucoseText) as TextView
+        if (glucoseCount>0){
+            if (totalGlucose>0){
+                averageGlucose = glucoseCount / totalGlucose
+            }
+        }
+        glucoseText.text = averageGlucose.toString() + " mg/dL"
+
+        val stepsText = view.findViewById<View>(R.id.stepsText) as TextView
+        stepsText.text = totalSteps.toString() + " steps"
+
+        val carbsText = view.findViewById<View>(R.id.carbsText) as TextView
+        carbsText.text = totalCarbs.toString() + " g"
     }
 
     fun formatDate(date : String) : String{
