@@ -5,112 +5,96 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/main_grey"
+        android:padding="10dp"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_marginVertical="20dp">
 
-            <TableLayout
-                android:id="@+id/tableLayout"
+            <EditText
+                android:id="@+id/gCarbs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="100px"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_margin="10dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/white_rounded_square"
+                android:hint="Grams of carbohydrates"
+                android:inputType="number"
+                android:paddingEnd="60dp"
+                android:paddingStart="10dp"
+                android:paddingVertical="10dp"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+            <EditText
+                android:id="@+id/carbRatio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/white_rounded_square"
+                android:hint="Carb Ratio"
+                android:inputType="number"
+                android:paddingStart="10dp"
+                android:paddingEnd="136dp"
+                android:paddingVertical="10dp"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gCarbs" />
 
-                    <TextView
-                        android:id="@+id/textView3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Grams of carbohydrates : " />
-
-                    <EditText
-                        android:id="@+id/gCarbs"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:inputType="number" />
-
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        android:id="@+id/textView4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="end |center"
-                        android:text="Carbohydrate Ratio : " />
-
-                    <EditText
-                        android:id="@+id/carbRatio"
-                        android:layout_width="120dp"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:inputType="number" />
-
-                    <ImageButton
-                        android:id="@+id/ratioInfo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:background="@color/white"
-                        android:padding="10dp"
-                        app:srcCompat="@drawable/ic_info" />
-
-                </TableRow>
-
-            </TableLayout>
+            <ImageButton
+                android:id="@+id/ratioInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@color/white"
+                android:backgroundTint="@color/main_grey"
+                android:paddingHorizontal="10dp"
+                android:paddingTop="15dp"
+                app:layout_constraintStart_toEndOf="@+id/carbRatio"
+                app:layout_constraintTop_toBottomOf="@+id/gCarbs"
+                app:srcCompat="@drawable/ic_info" />
 
             <Button
                 android:id="@+id/calcButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="20dp"
                 android:text="Calculate"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
+                app:layout_constraintTop_toBottomOf="@+id/carbRatio" />
 
             <TextView
                 android:id="@+id/calculationResult"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="end |center"
-                android:layout_margin="40dp"
+                android:layout_marginVertical="20dp"
+                android:layout_marginHorizontal="10dp"
                 android:text="Carbohydrate Bolus : "
-                app:layout_constraintEnd_toEndOf="parent"
+                android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/calcButton"
-                android:textSize="20sp"/>
+                app:layout_constraintTop_toBottomOf="@+id/calcButton" />
 
             <LinearLayout
                 android:layout_width="372dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="50dp"
                 android:layout_marginTop="60dp"
-                android:background="@drawable/note_rounded_square"
+                android:background="@drawable/white_rounded_square"
                 android:orientation="vertical"
                 android:padding="20dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/calculationResult"
-                android:elevation="10dp">
+                app:layout_constraintTop_toBottomOf="@+id/calculationResult">
 
                 <TextView
                     android:id="@+id/note"
@@ -134,8 +118,9 @@
 
             </LinearLayout>
 
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </FrameLayout>

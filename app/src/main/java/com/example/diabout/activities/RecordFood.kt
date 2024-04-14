@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.TimePicker
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -37,7 +38,7 @@ class RecordFood : ComponentActivity() {
         val intent = intent
         val userID = intent.getStringExtra("ID")
 
-        val backButton = findViewById<Button>(R.id.backButton)
+        val backButton = findViewById<ImageButton>(R.id.backButton)
         backButton.setOnClickListener {
             val intent = Intent(this, Dashboard::class.java)
             intent.putExtra("ID", userID)

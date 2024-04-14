@@ -161,13 +161,13 @@ class UserDetails : ComponentActivity() {
 
         }
 
-        val connectButton = findViewById<Button>(R.id.connect)
-        connectButton.setOnClickListener {
-            val intent = Intent(this, HealthConnect::class.java)
-            intent.putExtra("ID", userID)
-            startActivity(intent)
-            finish()
-        }
+//        val connectButton = findViewById<Button>(R.id.connect)
+//        connectButton.setOnClickListener {
+//            val intent = Intent(this, HealthConnect::class.java)
+//            intent.putExtra("ID", userID)
+//            startActivity(intent)
+//            finish()
+//        }
 
         val logOutButton = findViewById<Button>(R.id.logOut)
         logOutButton.setOnClickListener {
@@ -202,8 +202,8 @@ class UserDetails : ComponentActivity() {
         nameText = findViewById(R.id.nameText)
         emailText = findViewById(R.id.emailText)
 
-        nameText.text = "Name : $name"
-        emailText.text = "Email : $email"
+        nameText.text = "$name"
+        emailText.text = "$email"
     }
 
     fun closeDialog(userID: String){

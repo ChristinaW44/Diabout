@@ -1,86 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:id="@+id/main"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".activities.RecordGlucose"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_grey"
+    tools:context=".activities.RecordGlucose">
 
-<Button
-    android:id="@+id/backButton"
-    android:layout_width="116dp"
-    android:layout_height="wrap_content"
-    android:text="Back"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    android:layout_margin="20dp"/>
+    <ImageButton
+        android:id="@+id/backButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_margin="20dp"
+        android:background="@color/main_grey"
+        android:src="@drawable/ic_back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-<TextView
-    android:id="@+id/addGlucose"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"
-    android:text="Add Glucose"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/backButton"
-    android:textSize="20sp"
-    android:textStyle="bold"
-    android:layout_margin="40dp"/>
+    <TextView
+        android:id="@+id/addGlucose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="40dp"
+        android:paddingBottom="20dp"
+        android:text="Add Glucose"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/backButton" />
 
-<TextView
-    android:id="@+id/glucoseText"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="GLucose (mg/dL) : "
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/addGlucose"
-    android:layout_margin="30dp"/>
 
-<EditText
-    android:id="@+id/glucoseInput"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="20dp"
-    android:ems="10"
-    android:inputType="number"
-    app:layout_constraintStart_toEndOf="@+id/glucoseText"
-    app:layout_constraintTop_toBottomOf="@+id/addGlucose" />
+    <EditText
+        android:id="@+id/glucoseInput"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addGlucose"
+        android:background="@drawable/white_rounded_square"
+        android:hint="Glucose (mg/dL)"
+        android:padding="10dp"
+        android:layout_margin="10dp" />
 
-<TimePicker
-    android:id="@+id/timePicker"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:scaleX="0.6"
-    android:scaleY="0.6"
-    android:timePickerMode="spinner"
-    android:layout_marginTop="20dp"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/glucoseInput" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/pickers"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/white_rounded_square"
+        app:layout_constraintTop_toBottomOf="@+id/glucoseInput">
 
-<DatePicker
-    android:id="@+id/datePicker"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:calendarViewShown="false"
-    android:datePickerMode="spinner"
-    android:layout_marginTop="20dp"
-    android:scaleX="0.6"
-    android:scaleY="0.6"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/glucoseInput" />
+        <DatePicker
+            android:id="@+id/datePicker"
+            android:layout_width="219dp"
+            android:layout_height="204dp"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-<Button
-    android:id="@+id/submitButton"
-    android:layout_width="116dp"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center_horizontal"
-    android:layout_marginTop="32dp"
-    android:text="Add"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/timePicker" />
+        <TimePicker
+            android:id="@+id/timePicker"
+            android:layout_width="241dp"
+            android:layout_height="203dp"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:timePickerMode="spinner"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="116dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="32dp"
+        android:text="Add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pickers" />
 </androidx.constraintlayout.widget.ConstraintLayout>

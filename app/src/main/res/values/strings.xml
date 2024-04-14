@@ -10,9 +10,9 @@
 
     <string name="meal_bolus">
         NOTE: \n
-        - You may give insulin right after a meal if do not know the amount of carbohydrates
+        You may give insulin right after a meal if do not know the amount of carbohydrates
         that will be eaten, like with a very young child or sickness \n
-        - Do not give rapid-acting insulin when you eat carbohydrate to treat a low blood glucose or
+        Do not give rapid-acting insulin when you eat carbohydrate to treat a low blood glucose or
         to prevent a low blood glucose \n
     </string>
     <string name="meal_bolus_reference">
