@@ -1,5 +1,6 @@
 package com.example.diabout.activities
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -12,6 +13,7 @@ import androidx.activity.ComponentActivity
 import com.example.diabout.R
 import com.example.diabout.database.RecordItem
 import com.example.diabout.database.UserDBHelper
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class RecordFood : ComponentActivity() {
     lateinit var dbHandler : UserDBHelper
@@ -59,6 +61,20 @@ class RecordFood : ComponentActivity() {
             } else {
                 Toast.makeText(this, "Please enter a value for carbs", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        val infoButton = findViewById<FloatingActionButton>(R.id.info)
+        infoButton.setOnClickListener{
+            val alertBuilder = AlertDialog.Builder(this)
+            alertBuilder.setTitle("Why is it important to track your carbs?")
+                .setMessage("By tracking the carbohydrates you are eating it will make managing " +
+                        "you blood sugar easier. Eating carbs can also help you stay healthy, feel better " +
+                        "and improve your quality of life")
+                .setPositiveButton("Close"){ dialog, _ ->
+                    dialog.dismiss()
+                }
+            val alertDialog = alertBuilder.create()
+            alertDialog.show()
         }
     }
 

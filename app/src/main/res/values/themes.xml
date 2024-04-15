@@ -5,6 +5,19 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/main_blue</item>
+        <item name="floatingActionButtonLargeStyle">@color/white</item>
+    </style>
+
+    <style name="Theme.DiAbout." parent="Widget.Design.FloatingActionButton">
+        <item name="colorSecondary">@color/main_blue</item>
+        <item name="colorOnSecondary">@color/main_blue</item>
+        <item name="colorOnSurface">@color/main_blue</item>
+        <item name="shapeAppearanceSmallComponent">@style/ShapeAppearance.App.SmallComponent</item>
+    </style>
+
+    <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">4dp</item>
     </style>
 
   <!-- Base application theme. -->

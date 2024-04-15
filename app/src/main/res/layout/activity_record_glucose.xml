@@ -24,29 +24,51 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="40dp"
-        android:paddingBottom="20dp"
+        android:layout_margin="25dp"
         android:text="Add Glucose"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/backButton" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/addValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Glucose (mg/dL)"
+        android:textStyle="bold"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="70dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addGlucose" />
 
 
     <EditText
         android:id="@+id/glucoseInput"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/white_rounded_square"
         android:ems="10"
+        android:hint="Enter a glucose value"
+        android:textSize="11sp"
         android:inputType="number"
+        android:padding="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addGlucose"
-        android:background="@drawable/white_rounded_square"
-        android:hint="Glucose (mg/dL)"
-        android:padding="10dp"
-        android:layout_margin="10dp" />
+        app:layout_constraintTop_toBottomOf="@+id/addValue" />
+
+    <TextView
+        android:id="@+id/addTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select a date and time"
+        android:textStyle="bold"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/glucoseInput" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/pickers"
@@ -54,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@drawable/white_rounded_square"
-        app:layout_constraintTop_toBottomOf="@+id/glucoseInput">
+        app:layout_constraintTop_toBottomOf="@+id/addTime">
 
         <DatePicker
             android:id="@+id/datePicker"
@@ -81,12 +103,30 @@
 
     <Button
         android:id="@+id/submitButton"
-        android:layout_width="116dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="32dp"
-        android:text="Add"
+        android:layout_marginTop="45dp"
+        android:paddingHorizontal="50dp"
+        android:background="@drawable/white_rounded_square"
+        android:backgroundTint="@color/main_blue"
+        android:textColor="@color/white"
+        android:text="Add Glucose"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pickers" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        app:backgroundTint="@color/main_grey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:maxImageSize="57dp"
+        app:srcCompat="@drawable/ic_info"
+        app:tint="@color/main_blue"
+        android:contentDescription="info" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

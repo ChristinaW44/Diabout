@@ -132,12 +132,12 @@ class HomeFragment : Fragment() {
             }
             
         }
-
         var averageGlucose = 0
         val glucoseText = view.findViewById<View>(R.id.glucoseText) as TextView
         if (glucoseCount>0){
             if (totalGlucose>0){
-                averageGlucose = glucoseCount / totalGlucose
+                averageGlucose = totalGlucose /glucoseCount
+                println(averageGlucose)
             }
         }
         glucoseText.text = averageGlucose.toString() + " mg/dL"

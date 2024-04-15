@@ -1,5 +1,6 @@
 package com.example.diabout.activities
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -12,6 +13,7 @@ import androidx.activity.ComponentActivity
 import com.example.diabout.R
 import com.example.diabout.database.RecordItem
 import com.example.diabout.database.UserDBHelper
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.text.SimpleDateFormat
 import java.util.Calendar
 
@@ -61,6 +63,20 @@ class RecordGlucose : ComponentActivity() {
             } else {
                 Toast.makeText(this, "Please enter a glucose value", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        val infoButton = findViewById<FloatingActionButton>(R.id.info)
+        infoButton.setOnClickListener{
+            val alertBuilder = AlertDialog.Builder(this)
+            alertBuilder.setTitle("Why is it important to track glucose?")
+                .setMessage("By tracking your blood glucose levels, it will be easier to see when " +
+                        "your blood glucose falls out of the target range. When this happens you will " +
+                        "need to take medicine or eat something")
+                .setPositiveButton("Close"){ dialog, _ ->
+                    dialog.dismiss()
+                }
+            val alertDialog = alertBuilder.create()
+            alertDialog.show()
         }
 
 

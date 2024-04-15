@@ -1,5 +1,6 @@
 package com.example.diabout.activities
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -13,6 +14,7 @@ import com.example.diabout.R
 import com.example.diabout.database.Activity
 import com.example.diabout.database.RecordItem
 import com.example.diabout.database.UserDBHelper
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.Calendar
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -64,6 +66,20 @@ class RecordActivity : ComponentActivity() {
             } else {
                 Toast.makeText(this, "Please enter a steps value", Toast.LENGTH_SHORT).show()
             }
+        }
+
+        val infoButton = findViewById<FloatingActionButton>(R.id.info)
+        infoButton.setOnClickListener{
+            val alertBuilder = AlertDialog.Builder(this)
+            alertBuilder.setTitle("Why is it important to track your exercise?")
+                .setMessage("By exercising more it will help you body be more sensitive to insulin." +
+                        " Physical exercise can also help control blood sugar levels and lower the " +
+                        "risk of developing heart disease")
+                .setPositiveButton("Close"){ dialog, _ ->
+                    dialog.dismiss()
+                }
+            val alertDialog = alertBuilder.create()
+            alertDialog.show()
         }
     }
     private fun addActivity(userID : String, value : Int) {
