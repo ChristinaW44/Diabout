@@ -19,7 +19,7 @@ class Broadcaster : BroadcastReceiver() {
         val notification : Notification = NotificationCompat.Builder(context!!, channel)
             .setSmallIcon(R.drawable.ic_logo)
             .setContentTitle(intent!!.getStringExtra(titleExtra))
-            .setContentText(intent!!.getStringExtra(message))
+            .setContentText(intent.getStringExtra(message))
             .build()
 
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

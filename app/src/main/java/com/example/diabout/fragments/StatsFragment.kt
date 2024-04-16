@@ -62,11 +62,11 @@ class StatsFragment : Fragment() {
                     titleText.text = "Total carbs consumed"
 
                 if (timeSelected == 0){
-                    setGraphDataWeekly(view , userID!!, recordTypeSelected)
+                    setGraphDataWeekly(view , userID, recordTypeSelected)
                 } else if (timeSelected == 1){
-                    setGraphDataMonthly(view, userID!!, recordTypeSelected)
+                    setGraphDataMonthly(view, userID, recordTypeSelected)
                 } else {
-                    setGraphDataYearly(view, userID!!, recordTypeSelected)
+                    setGraphDataYearly(view, userID, recordTypeSelected)
                 }
             }
 
@@ -80,11 +80,11 @@ class StatsFragment : Fragment() {
             override fun onTabSelected(tab: TabLayout.Tab) {
                 timeSelected = tab.position
                 if (timeSelected == 0){
-                    setGraphDataWeekly(view , userID!!, recordTypeSelected)
+                    setGraphDataWeekly(view , userID, recordTypeSelected)
                 } else if (timeSelected == 1){
-                    setGraphDataMonthly(view, userID!!, recordTypeSelected)
+                    setGraphDataMonthly(view, userID, recordTypeSelected)
                 } else {
-                    setGraphDataYearly(view, userID!!, recordTypeSelected)
+                    setGraphDataYearly(view, userID, recordTypeSelected)
                 }
 
             }

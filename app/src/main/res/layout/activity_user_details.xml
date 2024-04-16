@@ -159,18 +159,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/data" />
 
-            <Button
-                android:id="@+id/connect"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_margin="5dp"
-                android:background="@drawable/white_rounded_square"
-                android:text="Connect Smart Watch"
-                android:textSize="15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/exportData" />
+<!--            <Button-->
+<!--                android:id="@+id/connect"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_centerHorizontal="true"-->
+<!--                android:layout_margin="5dp"-->
+<!--                android:background="@drawable/white_rounded_square"-->
+<!--                android:text="Connect Smart Watch"-->
+<!--                android:textSize="15sp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/exportData" />-->
 
             <Button
                 android:id="@+id/logOut"
@@ -183,7 +183,7 @@
                 android:layout_marginTop="40dp"
                 android:layout_marginHorizontal="5dp"
                 android:layout_marginBottom="5dp"
-                app:layout_constraintTop_toBottomOf="@+id/connect"
+                app:layout_constraintTop_toBottomOf="@+id/exportData"
                 app:layout_constraintBottom_toTopOf="@+id/deleteUser"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

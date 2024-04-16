@@ -90,8 +90,11 @@
 
     <ImageButton
         android:id="@+id/back"
+        android:backgroundTint="@color/main_blue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="?android:attr/homeAsUpIndicator" />
+        android:src="@drawable/ic_back_white"
+        app:tint="@color/white"
+        android:contentDescription="back" />
 
 </RelativeLayout>

@@ -40,7 +40,7 @@ class HomeFragment : Fragment() {
 
         val bundle = arguments
         val name = bundle!!.getString("name")
-        val userID = bundle!!.getString("ID")
+        val userID = bundle.getString("ID")
 
         welcomeText.text = "Hello $name"
 
