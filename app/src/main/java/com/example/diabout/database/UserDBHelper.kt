@@ -17,7 +17,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
 
     companion object{
         private const val DATABASE_NAME = "diabout"
-        private const val DATABASE_VERSION = 3
+        private const val DATABASE_VERSION = 4
 
         private const val USER_TABLE_NAME = "users"
         private const val USER_COLUMN_ID = "id"
@@ -25,11 +25,12 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         private const val USER_COLUMN_EMAIL = "email"
         private const val USER_COLUMN_PASSWORD = "password"
 
-        private const val ACTIVITY_TABLE_NAME = "activity"
-        private const val ACTIVITY_COLUMN_ID = "id"
-        private const val ACTIVITY_COLUMN_USER_ID = "userid"
-        private const val ACTIVITY_COLUMN_TIME = "time"
-        private const val ACTIVITY_COLUMN_STEPS = "steps"
+        private const val TARGETS_TABLE_NAME = "targets"
+        private const val TARGETS_COLUMN_USER_ID = "userid"
+        private const val TARGETS_COLUMN_STEPS = "targetSteps"
+        private const val TARGETS_COLUMN_CARBS = "targetCarbs"
+        private const val TARGETS_COLUMN_MIN_GLUCOSE = "targetMinGlucose"
+        private const val TARGETS_COLUMN_MAX_GLUCOSE = "targetMaxGlucose"
 
         private const val RECORD_TABLE_NAME = "record"
         private const val RECORD_COLUMN_ID = "id"
@@ -40,10 +41,17 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        val createTableQuery = "CREATE TABLE $USER_TABLE_NAME ($USER_COLUMN_ID INTEGER PRIMARY KEY, $USER_COLUMN_NAME TEXT, $USER_COLUMN_EMAIL TEXT, $USER_COLUMN_PASSWORD TEXT)"
+        val createTableQuery = "CREATE TABLE $USER_TABLE_NAME ($USER_COLUMN_ID INTEGER PRIMARY KEY, " +
+                "$USER_COLUMN_NAME TEXT, $USER_COLUMN_EMAIL TEXT, $USER_COLUMN_PASSWORD TEXT)"
         db?.execSQL(createTableQuery)
-        val createTableQuery2 = "CREATE TABLE $RECORD_TABLE_NAME ($RECORD_COLUMN_ID INTEGER PRIMARY KEY, $RECORD_COLUMN_USER_ID INT, $RECORD_COLUMN_RECORD_TYPE INT ,$RECORD_COLUMN_TIME TEXT, $RECORD_COLUMN_VALUE INT)"
+        val createTableQuery2 = "CREATE TABLE $RECORD_TABLE_NAME ($RECORD_COLUMN_ID INTEGER PRIMARY " +
+                "KEY, $RECORD_COLUMN_USER_ID INT, $RECORD_COLUMN_RECORD_TYPE INT ," +
+                "$RECORD_COLUMN_TIME TEXT, $RECORD_COLUMN_VALUE INT)"
         db?.execSQL(createTableQuery2)
+        val createTableQuery3 = "CREATE TABLE $TARGETS_TABLE_NAME ($TARGETS_COLUMN_USER_ID " +
+                "INT PRIMARY KEY, $TARGETS_COLUMN_STEPS INT, $TARGETS_COLUMN_CARBS INT ," +
+                "$TARGETS_COLUMN_MIN_GLUCOSE INT, $TARGETS_COLUMN_MAX_GLUCOSE INT)"
+        db?.execSQL(createTableQuery3)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
@@ -51,6 +59,8 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         db?.execSQL(dropTableQuery)
         val dropTableQuery2 = "DROP TABLE IF EXISTS $RECORD_TABLE_NAME"
         db?.execSQL(dropTableQuery2)
+        val dropTableQuery3 = "DROP TABLE IF EXISTS $TARGETS_TABLE_NAME"
+        db?.execSQL(dropTableQuery3)
         onCreate(db)
     }
 
@@ -61,6 +71,18 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         values.put(USER_COLUMN_EMAIL, user.email)
         values.put(USER_COLUMN_PASSWORD, user.password)
         db.insert(USER_TABLE_NAME, null, values)
+        db.close()
+    }
+
+    fun addUserTargets(targets: Targets){
+        val db = this.writableDatabase
+        val values = ContentValues()
+        values.put(TARGETS_COLUMN_USER_ID, targets.userid)
+        values.put(TARGETS_COLUMN_STEPS, targets.steps)
+        values.put(TARGETS_COLUMN_CARBS, targets.carbs)
+        values.put(TARGETS_COLUMN_MIN_GLUCOSE, targets.minGlucose)
+        values.put(TARGETS_COLUMN_MAX_GLUCOSE, targets.maxGlucose)
+        db.insert(TARGETS_TABLE_NAME, null, values)
         db.close()
     }
 
@@ -145,6 +167,38 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         return email
     }
 
+    @SuppressLint("Range")
+    fun getMinGlucoseTargets (userId: String) : Int{
+        val db = this.readableDatabase
+        val selectedColumns = "$TARGETS_COLUMN_USER_ID = ?"
+        val selectedUserParams =  arrayOf(userId)
+        val cursor = db.query(TARGETS_TABLE_NAME, null, selectedColumns, selectedUserParams, null, null, null)
+        var minTarget = 0
+        if (cursor.count > 0) {
+            cursor.moveToFirst()
+            minTarget = cursor.getInt(cursor.getColumnIndex(TARGETS_COLUMN_MIN_GLUCOSE))
+        }
+        cursor.close()
+        db.close()
+        return minTarget
+    }
+
+    @SuppressLint("Range")
+    fun getMaxGlucoseTargets (userId: String) : Int{
+        val db = this.readableDatabase
+        val selectedColumns = "$TARGETS_COLUMN_USER_ID = ?"
+        val selectedUserParams =  arrayOf(userId)
+        val cursor = db.query(TARGETS_TABLE_NAME, null, selectedColumns, selectedUserParams, null, null, null)
+        var maxTarget = 0
+        if (cursor.count > 0) {
+            cursor.moveToFirst()
+            maxTarget = cursor.getInt(cursor.getColumnIndex(TARGETS_COLUMN_MAX_GLUCOSE))
+        }
+        cursor.close()
+        db.close()
+        return maxTarget
+    }
+
     fun updateName(id: String, name: String){
         val db = this.writableDatabase
         val value = ContentValues().apply {
@@ -178,6 +232,19 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         db.close()
     }
 
+    fun updateGlucoseTargets(userID: Int, minTarget : Int, maxTarget :Int){
+        val db = this.writableDatabase
+        val value = ContentValues().apply {
+            put(TARGETS_COLUMN_MIN_GLUCOSE, minTarget)
+            put(TARGETS_COLUMN_MAX_GLUCOSE, maxTarget)
+        }
+        val where = "$TARGETS_COLUMN_USER_ID = ?"
+        val args = arrayOf((userID.toString()))
+        db.update(TARGETS_TABLE_NAME, value, where, args)
+        db.close()
+    }
+
+
     fun addRecord(record: RecordItem){
         val db = this.writableDatabase
         val values = ContentValues()
@@ -190,20 +257,24 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
     }
 
     fun findAllUserRecords(userID: Int): List<RecordItem> {
-        val recordList = mutableListOf<RecordItem>()
+        val recordList = mutableListOf<RecordItem>() //empty list to store the data
+        //creates a query in the form of:
+        //SELECT * FROM 'RECORD_TABLE_NAME' WHERE 'RECORD_COLUMN_USER_ID' = userID
         val db = this.readableDatabase
         val selectedColumns = "$RECORD_COLUMN_USER_ID = ?"
         val selectedUserParams =  arrayOf(userID.toString())
-        val cursor = db.query(RECORD_TABLE_NAME, null, selectedColumns, selectedUserParams, null, null, null)
-
+        val cursor = db.query(RECORD_TABLE_NAME, null, selectedColumns, selectedUserParams,
+            null, null, null)
+        //loops through each row and creates a record item using the values
+        //then adds the record to the data list to be returned
         while (cursor.moveToNext()){
             val id = cursor.getInt(cursor.getColumnIndexOrThrow(RECORD_COLUMN_ID))
-            val userID = cursor.getInt(cursor.getColumnIndexOrThrow(RECORD_COLUMN_USER_ID))
+            val userId = cursor.getInt(cursor.getColumnIndexOrThrow(RECORD_COLUMN_USER_ID))
             val recordType = cursor.getInt(cursor.getColumnIndexOrThrow(RECORD_COLUMN_RECORD_TYPE))
             val time = cursor.getString(cursor.getColumnIndexOrThrow(RECORD_COLUMN_TIME))
             val value = cursor.getInt(cursor.getColumnIndexOrThrow(RECORD_COLUMN_VALUE))
 
-            val record = RecordItem(id, userID, recordType, time, value)
+            val record = RecordItem(id, userId, recordType, time, value)
             recordList.add(record)
         }
         cursor.close()

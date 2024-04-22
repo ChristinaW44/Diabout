@@ -1,0 +1,31 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    >
+
+    <EditText
+        android:id="@+id/minTarget"
+        android:inputType="number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Minimum glucose target"
+        android:layout_margin="5dp"
+        android:paddingVertical="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="45dp"
+        android:background="@drawable/blue_rounded_rectangle"/>
+    <EditText
+        android:id="@+id/maxTarget"
+        android:inputType="number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Maximum glucose target"
+        android:layout_margin="5dp"
+        android:paddingVertical="10dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="50dp"
+        android:background="@drawable/blue_rounded_rectangle"/>
+
+</LinearLayout>

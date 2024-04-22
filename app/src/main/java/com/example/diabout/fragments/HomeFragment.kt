@@ -15,6 +15,7 @@ import com.example.diabout.R
 import com.example.diabout.activities.RecordActivity
 import com.example.diabout.activities.RecordFood
 import com.example.diabout.activities.RecordGlucose
+import com.example.diabout.activities.TargetGlucose
 import com.example.diabout.activities.UserDetails
 import com.example.diabout.database.RecordItem
 import com.example.diabout.database.UserDBHelper
@@ -68,6 +69,13 @@ class HomeFragment : Fragment() {
         val foodRecordButton = view.findViewById<View>(R.id.foodRecordButton) as ImageButton
         foodRecordButton.setOnClickListener {
             val intent = Intent(context, RecordFood::class.java)
+            intent.putExtra("ID", userID)
+            startActivity(intent)
+        }
+
+        val targetGlucoseButton = view.findViewById<View>(R.id.targetGlucose) as ImageButton
+        targetGlucoseButton.setOnClickListener {
+            val intent = Intent(context, TargetGlucose::class.java)
             intent.putExtra("ID", userID)
             startActivity(intent)
         }

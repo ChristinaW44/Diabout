@@ -11,6 +11,7 @@ import com.example.diabout.helpers.DetailChecker
 import com.example.diabout.R
 import com.example.diabout.database.UserDBHelper
 import com.example.diabout.database.Users
+import com.example.diabout.database.Targets
 
 class Register: ComponentActivity() {
 
@@ -53,8 +54,10 @@ class Register: ComponentActivity() {
                     if (detailChecker.checkPasswordLength(user.password)) {
                         if (detailChecker.checkConfimPassword(user.password, confirmPasswordText.text.toString().trim())) {
                             dbHandler.addUser(user)
-                            val intent = Intent(this, Dashboard::class.java)
                             val userID = dbHandler.getIdFromEmail(user.email)
+                            val targets = Targets(userID,6000,200, 130, 180)
+                            dbHandler.addUserTargets(targets)
+                            val intent = Intent(this, Dashboard::class.java)
                             intent.putExtra("ID", userID.toString())
                             startActivity(intent)
                             finish()
