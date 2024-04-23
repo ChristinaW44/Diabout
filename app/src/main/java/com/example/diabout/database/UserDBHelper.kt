@@ -41,26 +41,26 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        val createTableQuery = "CREATE TABLE $USER_TABLE_NAME ($USER_COLUMN_ID INTEGER PRIMARY KEY, " +
+        val usersTable = "CREATE TABLE $USER_TABLE_NAME ($USER_COLUMN_ID INTEGER PRIMARY KEY, " +
                 "$USER_COLUMN_NAME TEXT, $USER_COLUMN_EMAIL TEXT, $USER_COLUMN_PASSWORD TEXT)"
-        db?.execSQL(createTableQuery)
-        val createTableQuery2 = "CREATE TABLE $RECORD_TABLE_NAME ($RECORD_COLUMN_ID INTEGER PRIMARY " +
+        db?.execSQL(usersTable)
+        val recordsTable = "CREATE TABLE $RECORD_TABLE_NAME ($RECORD_COLUMN_ID INTEGER PRIMARY " +
                 "KEY, $RECORD_COLUMN_USER_ID INT, $RECORD_COLUMN_RECORD_TYPE INT ," +
                 "$RECORD_COLUMN_TIME TEXT, $RECORD_COLUMN_VALUE INT)"
-        db?.execSQL(createTableQuery2)
-        val createTableQuery3 = "CREATE TABLE $TARGETS_TABLE_NAME ($TARGETS_COLUMN_USER_ID " +
+        db?.execSQL(recordsTable)
+        val targetsTable = "CREATE TABLE $TARGETS_TABLE_NAME ($TARGETS_COLUMN_USER_ID " +
                 "INT PRIMARY KEY, $TARGETS_COLUMN_STEPS INT, $TARGETS_COLUMN_CARBS INT ," +
                 "$TARGETS_COLUMN_MIN_GLUCOSE INT, $TARGETS_COLUMN_MAX_GLUCOSE INT)"
-        db?.execSQL(createTableQuery3)
+        db?.execSQL(targetsTable)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
-        val dropTableQuery = "DROP TABLE IF EXISTS $USER_TABLE_NAME"
-        db?.execSQL(dropTableQuery)
-        val dropTableQuery2 = "DROP TABLE IF EXISTS $RECORD_TABLE_NAME"
-        db?.execSQL(dropTableQuery2)
-        val dropTableQuery3 = "DROP TABLE IF EXISTS $TARGETS_TABLE_NAME"
-        db?.execSQL(dropTableQuery3)
+        val dropUsers = "DROP TABLE IF EXISTS $USER_TABLE_NAME"
+        db?.execSQL(dropUsers)
+        val dropRecords = "DROP TABLE IF EXISTS $RECORD_TABLE_NAME"
+        db?.execSQL(dropRecords)
+        val dropTargets = "DROP TABLE IF EXISTS $TARGETS_TABLE_NAME"
+        db?.execSQL(dropTargets)
         onCreate(db)
     }
 

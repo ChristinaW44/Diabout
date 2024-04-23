@@ -87,7 +87,7 @@ class TargetCarbs : AppCompatActivity() {
         for (i in allRecords) {
             val date = i.time.split(" ")[0]
             if (date == todaysDate) {
-                if (i.recordtype == 2) {
+                if (i.recordtype == 3) {
                     totalSteps += i.value
                 }
 
