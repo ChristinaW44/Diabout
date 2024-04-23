@@ -29,6 +29,12 @@
         android:theme="@style/Theme.DiAbout"
         tools:targetApi="31">
         <activity
+            android:name=".activities.TargetCarbs"
+            android:exported="false" />
+        <activity
+            android:name=".activities.TargetSteps"
+            android:exported="false" />
+        <activity
             android:name=".activities.TargetGlucose"
             android:exported="false" />
 

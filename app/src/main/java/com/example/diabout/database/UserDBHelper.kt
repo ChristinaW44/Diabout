@@ -90,9 +90,11 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         val db = this.writableDatabase
         val whereUser = "$USER_COLUMN_ID = ?"
         val whereRecord = "$RECORD_COLUMN_USER_ID = ?"
+        val whereTargets = "$TARGETS_COLUMN_USER_ID = ?"
         val args = arrayOf(id)
         db.delete(USER_TABLE_NAME, whereUser, args)
         db.delete(RECORD_TABLE_NAME, whereRecord, args)
+        db.delete(TARGETS_TABLE_NAME, whereTargets, args)
         db.close()
     }
 
@@ -199,6 +201,40 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         return maxTarget
     }
 
+    @SuppressLint("Range")
+    fun getStepsTargets (userId: String) : Int{
+        val db = this.readableDatabase
+        val selectedColumns = "$TARGETS_COLUMN_USER_ID = ?"
+        val selectedUserParams =  arrayOf(userId)
+        val cursor = db.query(TARGETS_TABLE_NAME, null, selectedColumns, selectedUserParams, null, null, null)
+        var maxTarget = 0
+        if (cursor.count > 0) {
+            cursor.moveToFirst()
+            maxTarget = cursor.getInt(cursor.getColumnIndex(TARGETS_COLUMN_STEPS))
+        }
+        cursor.close()
+        db.close()
+        return maxTarget
+    }
+
+    @SuppressLint("Range")
+    fun getCarbsTargets (userId: String) : Int{
+        val db = this.readableDatabase
+        val selectedColumns = "$TARGETS_COLUMN_USER_ID = ?"
+        val selectedUserParams =  arrayOf(userId)
+        val cursor = db.query(TARGETS_TABLE_NAME, null, selectedColumns, selectedUserParams, null, null, null)
+        var maxTarget = 0
+        if (cursor.count > 0) {
+            cursor.moveToFirst()
+            maxTarget = cursor.getInt(cursor.getColumnIndex(TARGETS_COLUMN_CARBS))
+        }
+        cursor.close()
+        db.close()
+        return maxTarget
+    }
+
+
+
     fun updateName(id: String, name: String){
         val db = this.writableDatabase
         val value = ContentValues().apply {
@@ -237,6 +273,28 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         val value = ContentValues().apply {
             put(TARGETS_COLUMN_MIN_GLUCOSE, minTarget)
             put(TARGETS_COLUMN_MAX_GLUCOSE, maxTarget)
+        }
+        val where = "$TARGETS_COLUMN_USER_ID = ?"
+        val args = arrayOf((userID.toString()))
+        db.update(TARGETS_TABLE_NAME, value, where, args)
+        db.close()
+    }
+
+    fun updateStepTarget(userID: Int, steps : Int){
+        val db = this.writableDatabase
+        val value = ContentValues().apply {
+            put(TARGETS_COLUMN_STEPS, steps)
+        }
+        val where = "$TARGETS_COLUMN_USER_ID = ?"
+        val args = arrayOf((userID.toString()))
+        db.update(TARGETS_TABLE_NAME, value, where, args)
+        db.close()
+    }
+
+    fun updateCarbTarget(userID: Int, carbs : Int){
+        val db = this.writableDatabase
+        val value = ContentValues().apply {
+            put(TARGETS_COLUMN_CARBS, carbs)
         }
         val where = "$TARGETS_COLUMN_USER_ID = ?"
         val args = arrayOf((userID.toString()))
