@@ -66,7 +66,7 @@
         android:text="Select a date and time"
         android:textStyle="bold"
         android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stepsInput" />
 
@@ -106,7 +106,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginBottom="25dp"
         android:paddingHorizontal="50dp"
         android:background="@drawable/white_rounded_square"
         android:backgroundTint="@color/main_blue"
@@ -115,6 +116,72 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pickers" />
+
+    <TextView
+        android:id="@+id/stepCounter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Click below to start the automatic step counter.
+             Once you click stop the activity will be added"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/submitButton"
+        android:layout_marginTop="30dp"
+        android:layout_marginHorizontal="15dp"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/stepCounterLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:background="@drawable/white_rounded_square"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stepCounter"
+        android:layout_marginTop="10dp"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/totalSteps"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="0 Steps"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/startStepCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/white_rounded_square"
+            android:backgroundTint="@color/main_blue"
+            android:paddingHorizontal="50dp"
+            android:text="Start"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/totalSteps" />
+
+        <Button
+            android:id="@+id/stopStepCounter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/white_rounded_square"
+            android:backgroundTint="@color/main_blue"
+            android:paddingHorizontal="50dp"
+            android:text="Stop"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/totalSteps" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/info"
@@ -128,5 +195,7 @@
         app:srcCompat="@drawable/ic_info"
         app:tint="@color/main_blue"
         android:contentDescription="info" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
