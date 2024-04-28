@@ -1,6 +1,7 @@
 package com.example.diabout.fragments
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -41,9 +42,12 @@ class HomeFragment : Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_home, container, false)
         welcomeText = view.findViewById<View>(R.id.welcomeText) as TextView
 
-        val bundle = arguments
-        val name = bundle!!.getString("name")
-        val userID = bundle.getString("ID")
+        val sharedPreferences = this.activity?.getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        val userID = sharedPreferences?.getString("ID", "0")
+        val name = sharedPreferences?.getString("name", "")
+//        val bundle = arguments
+//        val name = bundle!!.getString("name")
+//        val userID = bundle.getString("ID")
 
         welcomeText.text = "Hello $name"
 

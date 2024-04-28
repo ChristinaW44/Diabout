@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.diabout.R
 
 class InfoAdapter(private var infoList : MutableList<Info>) : RecyclerView.Adapter<InfoAdapter.ViewHolder>() {
-
+    //used to add all info items to recycler view on info page
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val infoView = LayoutInflater.from(parent.context).inflate(R.layout.info_card, parent, false)
@@ -35,13 +35,11 @@ class InfoAdapter(private var infoList : MutableList<Info>) : RecyclerView.Adapt
         }
     }
 
-    inner class ViewHolder(infoView : View) : RecyclerView.ViewHolder(infoView){
+    class ViewHolder(infoView : View) : RecyclerView.ViewHolder(infoView){
         val title:TextView = infoView.findViewById(R.id.titleText)
         val desc: TextView = infoView.findViewById(R.id.descText)
         val readButton: Button = infoView.findViewById(R.id.readHere)
         val infoView = infoView
-
-
 
     }
 

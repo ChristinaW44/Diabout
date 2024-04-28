@@ -341,32 +341,36 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
     }
 
     fun exportData(context: Context, filename : String, id : String){
+        //gets all records for the chosen user
         val db = this.writableDatabase
         val selectedColumns = "$RECORD_COLUMN_USER_ID = ?"
         val selectedUserParams =  arrayOf(id)
-        val cursor = db.query(RECORD_TABLE_NAME, null, selectedColumns, selectedUserParams, null, null, null)
+        val cursor = db.query(RECORD_TABLE_NAME, null,
+            selectedColumns, selectedUserParams, null, null, null)
         try{
-
-            val directory = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toURI())
-
+            //creates a file in the External Storage Public Directory
+            val directory = File(Environment
+                .getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).toURI())
             val file = File(directory, filename)
-            println("test")
             val outputStream = FileOutputStream(file)
-
-
+            //adds each record to the file
             while (cursor.moveToNext()){
-                val data = "${cursor.getInt(0)}, ${cursor.getInt(1)}, ${cursor.getInt(2)}, ${cursor.getString(3)}, ${cursor.getInt(1)}"
+                val data = "${cursor.getInt(0)}, ${cursor.getInt(1)}, " +
+                        "${cursor.getInt(2)}, ${cursor.getString(3)}, " +
+                        "${cursor.getInt(1)}"
                 outputStream.write(data.toByteArray())
-
             }
-
+            //closes all opened objects
             outputStream.close()
             cursor.close()
             db.close()
 
+            //checks if the file is created
             val fileSize = file.length()
             if(fileSize > 0){
-                Toast.makeText(context, "File created and can likely be found in Internal Storage/Documents", Toast.LENGTH_LONG).show()
+                Toast.makeText(context,
+                    "File created and can likely be found in Internal Storage/Documents",
+                    Toast.LENGTH_LONG).show()
             }
         } catch (e: IOException){
             e.printStackTrace()

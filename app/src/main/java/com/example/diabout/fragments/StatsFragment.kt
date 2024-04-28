@@ -1,5 +1,6 @@
 package com.example.diabout.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ import com.github.mikephil.charting.data.BarEntry
 import com.google.android.material.tabs.TabLayout
 import java.time.LocalDate
 import java.util.Calendar
+import kotlin.math.absoluteValue
 
 class StatsFragment : Fragment() {
 
@@ -36,8 +38,10 @@ class StatsFragment : Fragment() {
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_stats, container, false)
 
-        val bundle = arguments
-        val userID = bundle!!.getString("ID")
+//        val bundle = arguments
+//        val userID = bundle!!.getString("ID")
+        val sharedPreferences = this.activity?.getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        val userID = sharedPreferences?.getString("ID", "0")
 
         userDBHandler = UserDBHelper(context)
 
@@ -99,21 +103,19 @@ class StatsFragment : Fragment() {
     fun setGraphDataWeekly(view : View, userID : String, recordTypeSelected : Int) {
         val entries = ArrayList<BarEntry>()
         allRecords = userDBHandler.findAllUserRecords(userID.toInt())
-
+        //gets the current day of the week as an integer, e.g. MONDAY = 1
         val current = LocalDate.now()
         val dayValue = current.dayOfWeek.value
         var count = 0
-
+        //repeats until all days of current week have been added
         while (count != dayValue) {
-            var newDate = getDateNeeded(current, (dayValue - count - 1).toLong())
-
-            var currentYear = newDate.year
-            var currentMonth = newDate.month
-            var currentDay = newDate.dayOfMonth
-
+            val newDate = getDateNeeded(current, (dayValue - count - 1).toLong())
+            val currentYear = newDate.year
+            val currentMonth = newDate.month
+            val currentDay = newDate.dayOfMonth
             var total = 0
             var records = 0
-
+            //adds all records for the day to the array
             for (i in allRecords){
                 if (i.recordtype == recordTypeSelected) {
                     val recordDate = i.time.split(" ")
@@ -128,26 +130,23 @@ class StatsFragment : Fragment() {
                     }
                 }
             }
-
+            //if the record type is glucose finds the average for each day
             if (total != 0){
                 if (recordTypeSelected == 1){
                     val average = total / records
                     entries.add(BarEntry((count).toFloat(),average.toFloat()))
                 } else
                     entries.add(BarEntry((count).toFloat(),total.toFloat()))
-
-            } else {
+            } else
                 entries.add(BarEntry(count.toFloat(),0F))
-            }
             count ++
         }
 
-        var restData = dayValue
-        while (restData < 7){
-            entries.add(BarEntry(restData.toFloat(),0F))
-            restData ++
+        var restOfData = dayValue
+        while (restOfData < 7){
+            entries.add(BarEntry(restOfData.toFloat(),0F))
+            restOfData ++
         }
-
         createLineChart(view, entries, 0)
     }
 
@@ -156,17 +155,15 @@ class StatsFragment : Fragment() {
     }
 
     fun setGraphDataMonthly(view : View, userID : String, recordTypeSelected : Int) {
-
+        //gets values for the current date
         val daysInMonth = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)
-        val currentYear = 2024
-        val currentMonth = 4
+        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
+        val currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1
 
         val entries = ArrayList<BarEntry>()
-
         allRecords = userDBHandler.findAllUserRecords(userID.toInt())
-
         val perDayData = Array(daysInMonth) {Array<Int>(2){0} }
-
+        // adds the record data to the correct position in the array
         for (i in allRecords){
             if (i.recordtype == recordTypeSelected) {
                 val date = i.time.split(" ")
@@ -174,7 +171,6 @@ class StatsFragment : Fragment() {
                 if (dateSplit[0].toInt() == currentYear){
                     if (dateSplit[1].toInt() == currentMonth){
                         val day = dateSplit[2].toInt()
-
                         if (perDayData[day-1][1] == 0){
                             perDayData[day-1][0] = i.value
                             perDayData[day-1][1] = 1
@@ -186,32 +182,26 @@ class StatsFragment : Fragment() {
                 }
             }
         }
-
+        //turns the data for each day into an entry for the bar chart
         var count = 0
         for (j in perDayData){
-
             if (j[0] != 0) {
                 if (recordTypeSelected == 1) {
                     val average = j[0] / j[1]
                     entries.add(BarEntry(count.toFloat(), average.toFloat()))
                 } else
                     entries.add(BarEntry(count.toFloat(), j[0].toFloat()))
-            } else {
+            } else
                 entries.add(BarEntry(count.toFloat(),0f))
-            }
             count++
         }
-
         createLineChart(view, entries, 1)
-
     }
 
     fun setGraphDataYearly(view : View, userID : String, recordTypeSelected : Int){
 
-        val currentYear = 2024
-
+        val currentYear = Calendar.getInstance().get(Calendar.YEAR)
         val entries = ArrayList<BarEntry>()
-
         allRecords = userDBHandler.findAllUserRecords(userID.toInt())
 
         val perMonthData = Array(12) {Array<Int>(2){0} }
@@ -282,11 +272,5 @@ class StatsFragment : Fragment() {
 
         barChart.notifyDataSetChanged();
         barChart.invalidate();
-    }
-
-    fun resetChart(view : View){
-        val lineChart = view.findViewById<View>(R.id.chart) as LineChart
-        lineChart.notifyDataSetChanged();
-        lineChart.invalidate();
     }
 }

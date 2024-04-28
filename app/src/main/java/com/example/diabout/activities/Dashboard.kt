@@ -1,5 +1,6 @@
 package com.example.diabout.activities
 
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -23,28 +24,31 @@ class Dashboard : AppCompatActivity() {
         val infoFragment = InfoFragment()
         bottomNavigationView = findViewById(R.id.bottomNavigationView)!!
         userDBHandler = UserDBHelper(this)
-        val intent = intent
-        val userID = intent.getStringExtra("ID")
-        val name = userDBHandler.getNameFromID(userID!!)
+        val sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        val userID = sharedPreferences.getString("ID", "0")
+        val name = sharedPreferences.getString("name", "")
+//        val intent = intent
+//        val userID = intent.getStringExtra("ID")
+//        val name = userDBHandler.getNameFromID(userID!!)
 
-        setFragment(homeFragment, name, userID)
+        setFragment(homeFragment)
 
         bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.navHome-> {
-                    setFragment(homeFragment , name, userID)
+                    setFragment(homeFragment)
                     true
                 }
                 R.id.navStats -> {
-                    setFragment(statsFragment, name, userID)
+                    setFragment(statsFragment)
                     true
                 }
                 R.id.navCalc-> {
-                    setFragment(calcFragment, name, userID)
+                    setFragment(calcFragment)
                     true
                 }
                 R.id.navInfo -> {
-                    setFragment(infoFragment, name, userID)
+                    setFragment(infoFragment)
                     true
                 }
 
@@ -55,11 +59,13 @@ class Dashboard : AppCompatActivity() {
 
 
 
-    private fun setFragment(fragment: Fragment, name : String , userID  : String) {
-        val bundle = Bundle()
-        bundle.putString("name", name)
-        bundle.putString("ID", userID)
-        fragment.arguments = bundle
+    private fun setFragment(fragment: Fragment) {
+//        val bundle = Bundle()
+//        editSharedPrefs.putString("ID", userID)
+
+//        bundle.putString("name", name)
+//        bundle.putString("ID", userID)
+//        fragment.arguments = bundle
         val transaction = supportFragmentManager.beginTransaction()
         transaction.replace(R.id.fragment, fragment)
         transaction.commit()

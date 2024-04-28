@@ -4,7 +4,7 @@ import com.github.mikephil.charting.components.AxisBase
 import com.github.mikephil.charting.formatter.ValueFormatter
 
 class WeekValueFormatter() : ValueFormatter() {
-
+    //used to format the weekly bar chart labels
     private val month =
         arrayOf("M", "T", "W", "T", "F", "S", "S")
 

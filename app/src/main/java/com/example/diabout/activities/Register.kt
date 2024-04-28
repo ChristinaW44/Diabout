@@ -1,5 +1,6 @@
 package com.example.diabout.activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -58,7 +59,12 @@ class Register: ComponentActivity() {
                             val targets = Targets(userID,6000,200, 130, 180)
                             dbHandler.addUserTargets(targets)
                             val intent = Intent(this, Dashboard::class.java)
-                            intent.putExtra("ID", userID.toString())
+                            val sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE)
+                            val editSharedPrefs = sharedPreferences.edit()
+                            editSharedPrefs.putString("ID", userID.toString())
+                            editSharedPrefs.putString("name", nameText.text.toString().trim())
+                            editSharedPrefs.apply()
+//                            intent.putExtra("ID", userID.toString())
                             startActivity(intent)
                             finish()
                         } else {

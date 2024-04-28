@@ -14,6 +14,7 @@ import com.example.diabout.database.RecordItem
 
 class RecyclerAdapter(private val recordList: List<RecordItem>, private val dateList: MutableList<String>) : RecyclerView.Adapter<RecyclerAdapter.ViewHolderClass>() {
 
+    //used to add user records to the recycler view on home page
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass {
         val recordView = LayoutInflater.from(parent.context).inflate(R.layout.record_list_layout, parent, false)
         return ViewHolderClass(recordView)
@@ -23,6 +24,7 @@ class RecyclerAdapter(private val recordList: List<RecordItem>, private val date
         return recordList.size
     }
 
+    //formats and adds the data to the view
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
         val current = recordList[position]
         val currentDate = dateList[position]
@@ -37,6 +39,7 @@ class RecyclerAdapter(private val recordList: List<RecordItem>, private val date
         }
         holder.desc.text = type + " : "+ current.value.toString()
 
+        //used to make date show at top of section of records
         if (currentDate == ""){
             holder.date.textSize = 0.0F
             holder.dateTitle.setBackgroundColor(Color.WHITE)
@@ -59,6 +62,7 @@ class RecyclerAdapter(private val recordList: List<RecordItem>, private val date
 
     }
 
+    //gets access to all needed items
     class ViewHolderClass(recordView : View) : RecyclerView.ViewHolder(recordView) {
         val desc:TextView = recordView.findViewById(R.id.record)
         val time:TextView = recordView.findViewById(R.id.time)

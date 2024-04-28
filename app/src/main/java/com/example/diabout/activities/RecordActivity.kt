@@ -1,6 +1,7 @@
 package com.example.diabout.activities
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -42,8 +43,10 @@ class RecordActivity : ComponentActivity() {
 
         dbHandler = UserDBHelper(this)
 
-        val intent = intent
-        val userID = intent.getStringExtra("ID")
+        val sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        val userID = sharedPreferences.getString("ID", "0")
+//        val intent = intent
+//        val userID = intent.getStringExtra("ID")
 
         val backButton = findViewById<ImageButton>(R.id.backButton)
         backButton.setOnClickListener {

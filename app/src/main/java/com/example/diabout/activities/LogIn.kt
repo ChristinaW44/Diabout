@@ -1,5 +1,6 @@
 package com.example.diabout.activities
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -41,7 +42,13 @@ class LogIn : ComponentActivity() {
             if (userExists){
                 val intent = Intent(this, Dashboard::class.java)
                 val userID = dbHandler.getIdFromEmail(email)
-                intent.putExtra("ID", userID.toString())
+                val name = dbHandler.getNameFromID(userID.toString())
+                val sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE)
+                val editSharedPrefs = sharedPreferences.edit()
+                editSharedPrefs.putString("ID", userID.toString())
+                editSharedPrefs.putString("name", name)
+                editSharedPrefs.apply()
+//                intent.putExtra("ID", userID.toString())
                 startActivity(intent)
                 finish()
             } else {
