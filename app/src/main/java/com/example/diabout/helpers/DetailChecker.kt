@@ -23,5 +23,4 @@ class DetailChecker {
         val regex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+"
         val isEmail = email.matches(regex.toRegex())
         return isEmail
-    }
-}
+    }}
