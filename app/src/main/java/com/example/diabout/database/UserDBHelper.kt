@@ -5,9 +5,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import android.os.Build
 import android.os.Environment
-import android.provider.MediaStore
 import android.widget.Toast
 import java.io.File
 import java.io.FileOutputStream
@@ -232,8 +230,6 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         db.close()
         return maxTarget
     }
-
-
 
     fun updateName(id: String, name: String){
         val db = this.writableDatabase
