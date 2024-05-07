@@ -2,6 +2,8 @@ package com.example.diabout.activities
 
 import android.annotation.SuppressLint
 import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -16,6 +18,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.diabout.R
 import com.example.diabout.helpers.Broadcaster
+import com.example.diabout.helpers.channel
 import com.example.diabout.helpers.message
 import com.example.diabout.helpers.reminderTitle
 import java.util.Calendar
@@ -52,12 +55,12 @@ class SetReminder : AppCompatActivity() {
         reminderText = findViewById(R.id.reminderMessage)
 
 
-//        //sets a notification channel to add notifications to
-//        val currentChannel = NotificationChannel(channel,
-//            "Reminder", NotificationManager.IMPORTANCE_DEFAULT)
-//        currentChannel.description = "User Set Reminder"
-//        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-//        notificationManager.createNotificationChannel(currentChannel)
+        //sets a notification channel to add notifications to
+        val currentChannel = NotificationChannel(channel,
+            "Reminder", NotificationManager.IMPORTANCE_DEFAULT)
+        currentChannel.description = "User Set Reminder"
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(currentChannel)
 
         val setReminderButton = findViewById<Button>(R.id.setReminder)
         setReminderButton.setOnClickListener {

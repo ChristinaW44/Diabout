@@ -32,6 +32,7 @@ class RecordActivity : ComponentActivity(), SensorEventListener {
     private lateinit var startButton : Button
     private lateinit var stopButton : Button
     private var countSteps : Boolean = false
+    private var previousStepsUpdated : Boolean = false
     private var totalSteps : Float = 0.0f
     private var previousSteps : Float = 0.0f
 
@@ -131,7 +132,6 @@ class RecordActivity : ComponentActivity(), SensorEventListener {
             countSteps = false
             Toast.makeText(this, "Activity added", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, Dashboard::class.java)
-            intent.putExtra("ID", userID)
             startActivity(intent)
             finish()
         }
@@ -178,9 +178,16 @@ class RecordActivity : ComponentActivity(), SensorEventListener {
         val stepsText = findViewById<TextView>(R.id.totalSteps)
         //checks if the user has selected to count steps
         if (countSteps) {
-            totalSteps = event!!.values[0]
-            val steps = totalSteps.toInt() - previousSteps.toInt()
-            stepsText.text = steps.toString() + " Steps"
+            //makes sure it adds the previous steps, so they don't get counted
+            if (previousStepsUpdated == false){
+                previousSteps = event!!.values[0]
+                previousStepsUpdated = true
+            }
+            else{
+                totalSteps = event!!.values[0]
+                val steps = totalSteps.toInt() - previousSteps.toInt()
+                stepsText.text = steps.toString() + " Steps"
+            }
         }
     }
 

@@ -67,6 +67,12 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
+    implementation("com.google.android.material:material:1.3.0-alpha03")
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
+    implementation("androidx.core:core-splashscreen:1.1.0-rc01")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.2.0-alpha02")
+
+    //testing
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -74,10 +80,4 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-    implementation("com.google.android.material:material:1.3.0-alpha03")
-    implementation("com.jjoe64:graphview:4.2.2")
-    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
-    implementation("androidx.core:core-splashscreen:1.1.0-rc01")
-    implementation("androidx.health.connect:connect-client:1.1.0-alpha02")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.2.0-alpha02")
 }

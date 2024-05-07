@@ -1,6 +1,5 @@
 package com.example.diabout.helpers
 
-import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
@@ -24,9 +23,6 @@ class Broadcaster : BroadcastReceiver() {
         //retrieves teh notification title and message
         val notificationTitle = intent!!.getStringExtra(reminderTitle)
         val notificationMessage = intent!!.getStringExtra(message)
-        //creates a notification chanel to use
-        val notificationChannel = NotificationChannel(id.toString(), channel,
-            NotificationManager.IMPORTANCE_DEFAULT)
         //sets what happens when the notification is clicked
         val notificationIntent = Intent(context, LogIn::class.java)
         val pendingIntent = PendingIntent.getActivity(context, 1, notificationIntent,
@@ -41,10 +37,9 @@ class Broadcaster : BroadcastReceiver() {
             .setAutoCancel(true)
             .build()
 
-        //gets the notification manager, adds the channel and displays the notification
+        //gets the notification manager and displays the notification
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE)
                 as NotificationManager
-        notificationManager.createNotificationChannel(notificationChannel)
         notificationManager.notify(id, notification)
     }
 }
