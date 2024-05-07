@@ -8,6 +8,7 @@ import org.junit.Test
 class DetailCheckerTest {
 
     private lateinit var detailChecker: DetailChecker
+    //unit tests to test the class detail checker
 
     @Before
     fun setUp() {

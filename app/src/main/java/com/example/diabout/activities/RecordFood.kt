@@ -1,6 +1,7 @@
 package com.example.diabout.activities
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -16,13 +17,14 @@ import com.example.diabout.database.UserDBHelper
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class RecordFood : ComponentActivity() {
-    lateinit var dbHandler : UserDBHelper
-    lateinit var carbsText : EditText
-    lateinit var timePicker : TimePicker
-    lateinit var datePicker: DatePicker
+    private lateinit var dbHandler : UserDBHelper
+    private lateinit var carbsText : EditText
+    private lateinit var timePicker : TimePicker
+    private lateinit var datePicker: DatePicker
 
+    //checks that the input is not empty
     private fun checkInput(value: String): Boolean {
-        return if (value.length >0)
+        return if (value.isNotEmpty())
             true
         else
             false
@@ -34,35 +36,38 @@ class RecordFood : ComponentActivity() {
         carbsText = findViewById(R.id.carbsInput)
         timePicker= findViewById(R.id.timePicker)
         datePicker = findViewById(R.id.datePicker)
-
         dbHandler = UserDBHelper(this)
 
-        val intent = intent
-        val userID = intent.getStringExtra("ID")
+        //gets the user's id from shared preferences
+        val sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        val userID = sharedPreferences.getString("ID", "0")
 
+        //moves to dashboard activity
         val backButton = findViewById<ImageButton>(R.id.backButton)
         backButton.setOnClickListener {
             val intent = Intent(this, Dashboard::class.java)
-            intent.putExtra("ID", userID)
             startActivity(intent)
             finish()
         }
 
+        //adds the user's record to the database table
         val submit = findViewById<Button>(R.id.submitButton)
         submit.setOnClickListener {
             val value = carbsText.text.toString()
             if (checkInput(value)){
                 addCarbs(userID!!, value.toInt())
+                //informs the user the record has been added
                 Toast.makeText(this, "Carbs added", Toast.LENGTH_SHORT).show()
                 val intent = Intent(this, Dashboard::class.java)
-                intent.putExtra("ID", userID)
                 startActivity(intent)
                 finish()
             } else {
+                //informs the user if their input is invalid
                 Toast.makeText(this, "Please enter a value for carbs", Toast.LENGTH_SHORT).show()
             }
         }
 
+        //show the user a dialog that explains why carbohydrate counting is important in diabetes
         val infoButton = findViewById<FloatingActionButton>(R.id.info)
         infoButton.setOnClickListener{
             val alertBuilder = AlertDialog.Builder(this)
@@ -78,13 +83,15 @@ class RecordFood : ComponentActivity() {
         }
     }
 
+    //adds the record to the user's records using the entered data and time
     private fun addCarbs(userID: String, value: Int) {
-        var year = datePicker.year.toString()
+        val year = datePicker.year.toString()
         var month = (datePicker.month+1).toString()
         var day = datePicker.dayOfMonth.toString()
         var hour = timePicker.hour.toString()
         var minute = timePicker.minute.toString()
 
+        //if the value is below 10, a 0 needs to be added to the start for formatting
         if(month.length == 1){
             month = "0${month}"
         }
@@ -98,9 +105,9 @@ class RecordFood : ComponentActivity() {
             minute = "0${minute}"
         }
 
+        //add record to table in database
         val time = "$year-$month-$day $hour:$minute"
         val record = RecordItem(0, userID.toInt(), 3, time, value)
         dbHandler.addRecord(record)
-
     }
 }

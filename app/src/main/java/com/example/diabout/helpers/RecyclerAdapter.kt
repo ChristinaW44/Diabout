@@ -9,7 +9,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.diabout.R
-import com.example.diabout.database.Activity
 import com.example.diabout.database.RecordItem
 
 class RecyclerAdapter(private val recordList: List<RecordItem>, private val dateList: MutableList<String>) : RecyclerView.Adapter<RecyclerAdapter.ViewHolderClass>() {

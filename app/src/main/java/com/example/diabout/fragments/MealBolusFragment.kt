@@ -27,6 +27,7 @@ class MealBolusFragment : Fragment() {
         val gCarbsVal = view.findViewById<View>(R.id.gCarbs) as EditText
         val carbRatioVal = view.findViewById<View>(R.id.carbRatio) as EditText
 
+        //creates a dialog explaining what carbohydrate ratio is
         val ratioInfoButton = view.findViewById<View>(R.id.ratioInfo) as ImageButton
         ratioInfoButton.setOnClickListener {
             val alertBuilder = AlertDialog.Builder(context)
@@ -47,8 +48,10 @@ class MealBolusFragment : Fragment() {
 
             val calculationResult = view.findViewById<View>(R.id.calculationResult) as TextView
 
+            //check the input is not empty
             if (gCarbs != ""){
                 if (carbRatio != ""){
+                    //calculates calculation result
                     val carbBolus = gCarbs.toInt() / carbRatio.toInt()
                     calculationResult.text = "Carbohydrate Bolus : $carbBolus units"
                 }else

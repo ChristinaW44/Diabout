@@ -27,6 +27,7 @@ class CorrectionBolusFragment : Fragment(){
         val gTargetVal = view.findViewById<View>(R.id.gTarget) as EditText
         val correctFactorVal = view.findViewById<View>(R.id.correctFactor) as EditText
 
+        //creates a dialog explaining what glucose target is
         val targetInfoButton = view.findViewById<View>(R.id.targetInfo) as ImageButton
         targetInfoButton.setOnClickListener {
             val alertBuilder = AlertDialog.Builder(context)
@@ -39,6 +40,7 @@ class CorrectionBolusFragment : Fragment(){
             alertDialog.show()
         }
 
+        //creates a dialog explaining what correction factor is
         val correctInfoButton = view.findViewById<View>(R.id.correctInfo) as ImageButton
         correctInfoButton.setOnClickListener {
             val alertBuilder = AlertDialog.Builder(context)
@@ -54,15 +56,18 @@ class CorrectionBolusFragment : Fragment(){
         val calcButton = view.findViewById<View>(R.id.calcButton) as Button
         calcButton.setOnClickListener {
 
+            //retrieves the users inputs
             val gReading = gReadingVal.text.toString()
             val gTarget = gTargetVal.text.toString()
             val correctFactor = correctFactorVal.text.toString()
 
             val amountCorrectText = view.findViewById<View>(R.id.amountCorrectText) as TextView
 
+            //checks the inputs are not empty
             if (gReading != ""){
                 if (gTarget != "") {
                     if (correctFactor != ""){
+                        //calculates the amount to correct and correct bolus
                         val amountCorrect = gReading.toInt() - gTarget.toInt()
                         amountCorrectText.text = amountCorrect.toString()
                         val correctBolus = amountCorrect / correctFactor.toInt()
@@ -75,8 +80,6 @@ class CorrectionBolusFragment : Fragment(){
             } else
                 Toast.makeText(context, "Please enter a value for glucose reading", Toast.LENGTH_SHORT).show()
         }
-
-
         return view
     }
 }

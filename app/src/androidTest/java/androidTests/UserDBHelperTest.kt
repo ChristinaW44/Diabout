@@ -12,6 +12,8 @@ import org.junit.Test
 
 class UserDBHelperTest {
 
+    //unit tests for various functions in the UserDBHelper class
+
     lateinit var context : Context
     lateinit var dbHelper: UserDBHelper
     var userID: Int = 0

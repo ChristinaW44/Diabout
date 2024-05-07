@@ -20,6 +20,7 @@ class InfoAdapter(private var infoList : MutableList<Info>) : RecyclerView.Adapt
     }
 
     override fun getItemCount(): Int {
+        //gets numbe rof info items
         return infoList.size
     }
 
@@ -27,6 +28,7 @@ class InfoAdapter(private var infoList : MutableList<Info>) : RecyclerView.Adapt
         holder.title.text = infoList[position].title
         holder.desc.text = infoList[position].description
 
+        //sets the button to take the user to the url page of the info
         holder.readButton.setOnClickListener{
             val url = infoList[position].link
             val uri = Uri.parse(url)
@@ -36,11 +38,11 @@ class InfoAdapter(private var infoList : MutableList<Info>) : RecyclerView.Adapt
     }
 
     class ViewHolder(infoView : View) : RecyclerView.ViewHolder(infoView){
+        //retrieves all the view items that need to be set
         val title:TextView = infoView.findViewById(R.id.titleText)
         val desc: TextView = infoView.findViewById(R.id.descText)
         val readButton: Button = infoView.findViewById(R.id.readHere)
         val infoView = infoView
-
     }
 
 

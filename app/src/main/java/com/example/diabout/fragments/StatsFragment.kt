@@ -38,8 +38,7 @@ class StatsFragment : Fragment() {
     ): View? {
         val view: View = inflater.inflate(R.layout.fragment_stats, container, false)
 
-//        val bundle = arguments
-//        val userID = bundle!!.getString("ID")
+        //gets user id from shared preference
         val sharedPreferences = this.activity?.getSharedPreferences("preferences", Context.MODE_PRIVATE)
         val userID = sharedPreferences?.getString("ID", "0")
 
@@ -55,6 +54,7 @@ class StatsFragment : Fragment() {
 
         val recordTypeLayout = view.findViewById<View>(R.id.recordTypeTabs) as TabLayout
         recordTypeLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            //finds the tabs selected and sets the graph to show that data
             override fun onTabSelected(tab: TabLayout.Tab) {
                 recordTypeSelected = tab.position + 1
 
@@ -81,6 +81,7 @@ class StatsFragment : Fragment() {
 
         val tabLayout = view.findViewById<View>(R.id.dateTabs) as TabLayout
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            //finds the tabs selected and sets the graph to show that data
             override fun onTabSelected(tab: TabLayout.Tab) {
                 timeSelected = tab.position
                 if (timeSelected == 0){
@@ -199,13 +200,13 @@ class StatsFragment : Fragment() {
     }
 
     fun setGraphDataYearly(view : View, userID : String, recordTypeSelected : Int){
-
+        //gets values for the current date
         val currentYear = Calendar.getInstance().get(Calendar.YEAR)
         val entries = ArrayList<BarEntry>()
         allRecords = userDBHandler.findAllUserRecords(userID.toInt())
 
         val perMonthData = Array(12) {Array<Int>(2){0} }
-
+        // adds the record data to the correct position in the array
         for (i in allRecords){
             if (i.recordtype == recordTypeSelected) {
                 val date = i.time.split(" ")
@@ -222,7 +223,7 @@ class StatsFragment : Fragment() {
                 }
             }
         }
-
+        //turns the data for each day into an entry for the bar chart
         var count = 0
         for (j in perMonthData){
             if (j[0] != 0) {
@@ -246,7 +247,7 @@ class StatsFragment : Fragment() {
         v1.setDrawValues(false)
         v1.setColor(ContextCompat.getColor(context!!, R.color.main_blue))
         barChart.data = BarData(v1)
-
+        //formats the bar chart and changes it's appearance
         barChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
         barChart.axisLeft.axisMinimum= 0f
         barChart.axisRight.axisMinimum = 0f
@@ -257,7 +258,7 @@ class StatsFragment : Fragment() {
         barChart.xAxis.setDrawAxisLine(false)
         barChart.xAxis.setDrawGridLines(false)
 
-
+        //sets the x lables of the bars depending on the time selected
         if(timeSelected == 1){
             barChart.xAxis.valueFormatter = MonthValueFormatter()
         }else if (timeSelected == 2){

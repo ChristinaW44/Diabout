@@ -1,8 +1,5 @@
 package com.example.diabout.fragments
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -27,7 +24,7 @@ class InfoFragment : Fragment(R.layout.fragment_info) {
         val view: View = inflater.inflate(R.layout.fragment_info, container, false)
 
         populateInfoList()
-
+        //adds the info to the recycler view
         recyclerView = view.findViewById<View>(R.id.recyclerView) as RecyclerView
         recyclerView.layoutManager = LinearLayoutManager(container!!.context)
         recyclerView.setHasFixedSize(true)
@@ -35,6 +32,7 @@ class InfoFragment : Fragment(R.layout.fragment_info) {
         return view
     }
 
+    //info to add to the view
     private fun populateInfoList() {
         val infoCard1 = Info("What Is Type 1 Diabetes?",
             "The first step in self managing you diabetes is understanding it. " +

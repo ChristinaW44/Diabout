@@ -38,6 +38,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         private const val RECORD_COLUMN_VALUE = "value"
     }
 
+    //creates the tables in the database
     override fun onCreate(db: SQLiteDatabase?) {
         val usersTable = "CREATE TABLE $USER_TABLE_NAME ($USER_COLUMN_ID INTEGER PRIMARY KEY, " +
                 "$USER_COLUMN_NAME TEXT, $USER_COLUMN_EMAIL TEXT, $USER_COLUMN_PASSWORD TEXT)"
@@ -52,6 +53,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         db?.execSQL(targetsTable)
     }
 
+    //called whenever the database is changed
     override fun onUpgrade(db: SQLiteDatabase?, p1: Int, p2: Int) {
         val dropUsers = "DROP TABLE IF EXISTS $USER_TABLE_NAME"
         db?.execSQL(dropUsers)
@@ -62,6 +64,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         onCreate(db)
     }
 
+    //adds a user ot the Users table
     fun addUser(user : Users){
         val db = this.writableDatabase
         val values = ContentValues()
@@ -72,6 +75,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         db.close()
     }
 
+    //adds targets to the targets table
     fun addUserTargets(targets: Targets){
         val db = this.writableDatabase
         val values = ContentValues()
@@ -84,6 +88,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         db.close()
     }
 
+    //deletes the user from the users table, the user records from the records table and the users targets from the targets table
     fun deleteUser(id: String){
         val db = this.writableDatabase
         val whereUser = "$USER_COLUMN_ID = ?"
@@ -96,6 +101,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         db.close()
     }
 
+    //returns if the email and password match a row in the users table
     fun findUser (email : String, password : String) : Boolean {
         val db = this.readableDatabase
         val selectedColumns = "$USER_COLUMN_EMAIL = ? AND $USER_COLUMN_PASSWORD = ?"
@@ -108,6 +114,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         return exists
     }
 
+    //returns if th email is already in the users table
     fun userAlreadyCreated (email : String) : Boolean {
         val db = this.readableDatabase
         val selectedColumns = "$USER_COLUMN_EMAIL = ?"
@@ -119,6 +126,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         return exists
     }
 
+    //retrieves the id from the users table where the email matches
     @SuppressLint("Range")
     fun getIdFromEmail (email : String) : Int {
         val db = this.readableDatabase
@@ -135,6 +143,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         return id
     }
 
+    //retrieves the name from the users table where the id matches
     @SuppressLint("Range")
     fun getNameFromID (id : String) : String {
         val db = this.readableDatabase
@@ -151,6 +160,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         return name
     }
 
+    //retrieves the email from the users table where the id matches
     @SuppressLint("Range")
     fun getEmailFromID (id : String) : String {
         val db = this.readableDatabase
@@ -167,6 +177,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         return email
     }
 
+    //retrieves the minimum target glucose from the targets table where the user id matches
     @SuppressLint("Range")
     fun getMinGlucoseTargets (userId: String) : Int{
         val db = this.readableDatabase
@@ -183,6 +194,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         return minTarget
     }
 
+    //retrieves the maximum target glucose from the targets table where the user id matches
     @SuppressLint("Range")
     fun getMaxGlucoseTargets (userId: String) : Int{
         val db = this.readableDatabase
@@ -199,6 +211,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         return maxTarget
     }
 
+    //retrieves the step target from the targets table where the user id matches
     @SuppressLint("Range")
     fun getStepsTargets (userId: String) : Int{
         val db = this.readableDatabase
@@ -215,6 +228,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         return maxTarget
     }
 
+    //retrieves the carb target from the targets table where the user id matches
     @SuppressLint("Range")
     fun getCarbsTargets (userId: String) : Int{
         val db = this.readableDatabase
@@ -231,6 +245,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         return maxTarget
     }
 
+    //find the id in the table and replaces the name with the input name
     fun updateName(id: String, name: String){
         val db = this.writableDatabase
         val value = ContentValues().apply {
@@ -242,6 +257,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         db.close()
     }
 
+    //find the id in the table and replaces the email with the input email
     fun updateEmail(id: String, email: String){
         val db = this.writableDatabase
         val value = ContentValues().apply {
@@ -253,6 +269,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         db.close()
     }
 
+    //find the id in the table and replaces the password with the input password
     fun updatePassword(id: String, password: String){
         val db = this.writableDatabase
         val value = ContentValues().apply {
@@ -264,6 +281,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         db.close()
     }
 
+    //updates the minimum and maximum glucose targets
     fun updateGlucoseTargets(userID: Int, minTarget : Int, maxTarget :Int){
         val db = this.writableDatabase
         val value = ContentValues().apply {
@@ -276,6 +294,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         db.close()
     }
 
+    //updates the user's step target
     fun updateStepTarget(userID: Int, steps : Int){
         val db = this.writableDatabase
         val value = ContentValues().apply {
@@ -287,6 +306,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         db.close()
     }
 
+    //updates the user's carb target
     fun updateCarbTarget(userID: Int, carbs : Int){
         val db = this.writableDatabase
         val value = ContentValues().apply {
@@ -298,7 +318,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         db.close()
     }
 
-
+    //adds a record to the records table
     fun addRecord(record: RecordItem){
         val db = this.writableDatabase
         val values = ContentValues()
@@ -310,6 +330,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         db.close()
     }
 
+    //returns all records for a specified user
     fun findAllUserRecords(userID: Int): List<RecordItem> {
         val recordList = mutableListOf<RecordItem>() //empty list to store the data
         //creates a query in the form of:
@@ -336,6 +357,7 @@ class UserDBHelper(context: Context?) : SQLiteOpenHelper(context, DATABASE_NAME,
         return recordList
     }
 
+    //exports the user's data
     fun exportData(context: Context, filename : String, id : String){
         //gets all records for the chosen user
         val db = this.writableDatabase

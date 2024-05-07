@@ -2,17 +2,14 @@ package com.example.diabout.activities
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.example.diabout.R
 import com.example.diabout.database.RecordItem
 import com.example.diabout.database.UserDBHelper
@@ -21,20 +18,21 @@ import java.util.Calendar
 
 class TargetGlucose : AppCompatActivity() {
 
-    lateinit var allRecords: List<RecordItem>
-    lateinit var dbHandler : UserDBHelper
+    private lateinit var allRecords: List<RecordItem>
+    private lateinit var dbHandler : UserDBHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_target_glucose)
 
-        val intent = intent
-        val userID = intent.getStringExtra("ID")
+        //gets the user's id from shared preferences
+        val sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE)
+        val userID = sharedPreferences.getString("ID", "0")
 
+        //moves to dashboard activity
         val backButton = findViewById<ImageButton>(R.id.backButton)
         backButton.setOnClickListener {
             val intent = Intent(this, Dashboard::class.java)
-            intent.putExtra("ID", userID)
             startActivity(intent)
             finish()
         }
@@ -53,7 +51,7 @@ class TargetGlucose : AppCompatActivity() {
         targetRangeText.text = minTargetGlucose.toString() + " to " + maxTargetGlucose.toString()
         todayRecordText.text = todaysAvgGlucose.toString()
 
-
+        //adds different text options depending if the user has reached their goal
         if (todaysAvgGlucose in minTargetGlucose..maxTargetGlucose){
             targetText.text = "Congrats your average glucose is within the target range"
         }
@@ -64,8 +62,10 @@ class TargetGlucose : AppCompatActivity() {
             targetText.text = "Your average glucose is a bit low, it is suggested you eat something"
         }
 
+        //changes the user's targets
         val changeTargetsButton = findViewById<Button>(R.id.changeTargets)
         changeTargetsButton.setOnClickListener {
+            //creates an alert
             val alertBuilder = AlertDialog.Builder(this)
             val inflater = layoutInflater
             val dialogLayout = inflater.inflate(R.layout.dialog_change_glucose_targets, null)
@@ -74,11 +74,12 @@ class TargetGlucose : AppCompatActivity() {
                 .setPositiveButton("Confirm"){ dialog, _ ->
                     val minTarget = dialogLayout.findViewById<EditText>(R.id.minTarget)
                     val maxTarget = dialogLayout.findViewById<EditText>(R.id.maxTarget)
+                    //replace the database target with the user entered target
                     dbHandler.updateGlucoseTargets(userID.toInt(), minTarget.text.toString().toInt(), maxTarget.text.toString().toInt())
                     val intent = Intent(this, TargetGlucose::class.java)
-                    intent.putExtra("ID", userID)
                     startActivity(intent)
                 }
+                //closes the dialog
                 .setNegativeButton("Close"){ dialog, _ ->
                     dialog.dismiss()
                 }
@@ -87,12 +88,10 @@ class TargetGlucose : AppCompatActivity() {
 
     }
 
+    //gets the average glucose that day
     private fun todaysGlucose(userID : String) : Int{
-
         allRecords = dbHandler.findAllUserRecords(userID.toInt())
-
         val todaysDate = getTodaysDate()
-
         var totalGlucose = 0
         var glucoseCount = 0
 
@@ -106,6 +105,7 @@ class TargetGlucose : AppCompatActivity() {
 
             }
         }
+        //calculates the average
         var averageGlucose = 0
         if (glucoseCount > 0) {
             if (totalGlucose > 0) {
@@ -116,12 +116,12 @@ class TargetGlucose : AppCompatActivity() {
 
     }
 
+    //gets the days date
     @SuppressLint("SimpleDateFormat")
     fun getTodaysDate(): String {
         val time = Calendar.getInstance().time
         val formatter = SimpleDateFormat("yyyy-MM-dd")
-        val current = formatter.format(time)
-        return current
+        return formatter.format(time)
     }
 }
 

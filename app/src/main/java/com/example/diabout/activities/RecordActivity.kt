@@ -8,7 +8,6 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.DatePicker
@@ -19,26 +18,24 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import com.example.diabout.R
-import com.example.diabout.database.Activity
 import com.example.diabout.database.RecordItem
 import com.example.diabout.database.UserDBHelper
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.util.Calendar
 import java.text.SimpleDateFormat
-import java.util.Date
-import kotlin.math.truncate
+import java.util.Calendar
 
 class RecordActivity : ComponentActivity(), SensorEventListener {
-    lateinit var dbHandler : UserDBHelper
-    lateinit var stepsText : EditText
-    lateinit var timePicker : TimePicker
-    lateinit var datePicker: DatePicker
-    lateinit var startButton : Button
-    lateinit var stopButton : Button
-    var countSteps : Boolean = false
-    var totalSteps : Float = 0.0f
-    var previousSteps : Float = 0.0f
+    private lateinit var dbHandler : UserDBHelper
+    private lateinit var stepsText : EditText
+    private lateinit var timePicker : TimePicker
+    private lateinit var datePicker: DatePicker
+    private lateinit var startButton : Button
+    private lateinit var stopButton : Button
+    private var countSteps : Boolean = false
+    private var totalSteps : Float = 0.0f
+    private var previousSteps : Float = 0.0f
 
+    //checks that the input is not empty
     private fun checkInput(value: String): Boolean {
         return if (value.length >0)
             true
@@ -50,27 +47,26 @@ class RecordActivity : ComponentActivity(), SensorEventListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_record_activity)
 
+        //retrieves the step sensor from the device
         val sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         val stepSensor = sensorManager.getDefaultSensor((Sensor.TYPE_STEP_COUNTER))
 
         stepsText = findViewById(R.id.stepsInput)
         timePicker= findViewById(R.id.timePicker)
         datePicker = findViewById(R.id.datePicker)
-
         startButton = findViewById(R.id.startStepCounter)
         stopButton = findViewById(R.id.stopStepCounter)
-
         stopButton.visibility = View.INVISIBLE
-
         dbHandler = UserDBHelper(this)
 
+        //retrieves the user's id from shared preferences
         val sharedPreferences = getSharedPreferences("preferences", Context.MODE_PRIVATE)
         val userID = sharedPreferences.getString("ID", "0")
-//        val intent = intent
-//        val userID = intent.getStringExtra("ID")
 
+        //retrieves the previous step count from shared preferences
         previousSteps = sharedPreferences.getFloat("previousSteps", 0f)
 
+        //checks if the device has the correct sensor
         if (stepSensor == null) {
             Toast.makeText(this, "This device does not have the sensors needed to detect steps", Toast.LENGTH_LONG).show()
         } else {
@@ -85,6 +81,7 @@ class RecordActivity : ComponentActivity(), SensorEventListener {
             finish()
         }
 
+        //adds the manually entered activity to the user's records
         val submit = findViewById<Button>(R.id.submitButton)
         submit.setOnClickListener {
             val value = stepsText.text.toString()
@@ -100,6 +97,7 @@ class RecordActivity : ComponentActivity(), SensorEventListener {
             }
         }
 
+        //show the user a dialog that explains why exercise is important in diabetes
         val infoButton = findViewById<FloatingActionButton>(R.id.info)
         infoButton.setOnClickListener{
             val alertBuilder = AlertDialog.Builder(this)
@@ -114,20 +112,22 @@ class RecordActivity : ComponentActivity(), SensorEventListener {
             alertDialog.show()
         }
 
+        //shows the stop button and sets its so it starts counting steps
         startButton.setOnClickListener{
-            println("start clicked")
             countSteps = true
             previousSteps = sharedPreferences.getFloat("previousSteps", 0f)
             startButton.visibility = View.INVISIBLE
             stopButton.visibility = View.VISIBLE
         }
         stopButton.setOnClickListener{
-            println("stop clicked")
+            //adds the steps counted to the user's record and moves back to the dashboard
             addAutomaticActivity(userID!!)
             previousSteps = totalSteps
             val editor = sharedPreferences.edit()
+            //adds the steps to the shared preference
             editor.putFloat("previousSteps", previousSteps)
             editor.apply()
+            //sets it so it stops counting
             countSteps = false
             Toast.makeText(this, "Activity added", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, Dashboard::class.java)
@@ -137,6 +137,7 @@ class RecordActivity : ComponentActivity(), SensorEventListener {
         }
     }
 
+    //adds the record to the user's records using the current data and time
     private fun addAutomaticActivity(userID: String){
         val now = Calendar.getInstance().time
         val formatter = SimpleDateFormat("yyyy-MM-dd HH:mm")
@@ -145,13 +146,15 @@ class RecordActivity : ComponentActivity(), SensorEventListener {
         dbHandler.addRecord(record)
     }
 
+    //adds the record to the user's records using the entered data and time
     private fun addActivity(userID : String, value : Int) {
-        var year = datePicker.year.toString()
+        val year = datePicker.year.toString()
         var month = (datePicker.month+1).toString()
         var day = datePicker.dayOfMonth.toString()
         var hour = timePicker.hour.toString()
         var minute = timePicker.minute.toString()
 
+        //if the value is below 10, a 0 needs to be added to the start for formatting
         if(month.length == 1){
             month = "0${month}"
         }
@@ -164,14 +167,16 @@ class RecordActivity : ComponentActivity(), SensorEventListener {
         if(minute.length == 1){
             minute = "0${minute}"
         }
-
+        //add record to table in database
         val time = "$year-$month-$day $hour:$minute"
         val record = RecordItem(0, userID.toInt(), 2, time, value)
         dbHandler.addRecord(record)
     }
 
+    //if sensor has changed, update the total steps
     override fun onSensorChanged(event: SensorEvent?) {
         val stepsText = findViewById<TextView>(R.id.totalSteps)
+        //checks if the user has selected to count steps
         if (countSteps) {
             totalSteps = event!!.values[0]
             val steps = totalSteps.toInt() - previousSteps.toInt()
@@ -180,7 +185,7 @@ class RecordActivity : ComponentActivity(), SensorEventListener {
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
-        println("Accuracy has changed to "+ accuracy)
+        println("Accuracy has changed to $accuracy")
     }
 
 }
